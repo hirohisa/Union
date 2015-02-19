@@ -37,7 +37,7 @@ public class Task {
     }
 
     func start() {
-        self.animation?.delegate = self
+        animation?.delegate = self
         if delay == 0.0 {
             _start()
             return
@@ -70,7 +70,7 @@ public class Task {
     }
 
     func finish() {
-        self.finished = true
+        finished = true
         delegate?.taskDidLoad(self)
         completion()
     }
@@ -112,7 +112,7 @@ class Animator {
     }
 
     func start() {
-        if !self.running {
+        if !running {
             finish()
         }
 
@@ -123,7 +123,7 @@ class Animator {
     }
 
     func taskDidLoad(_: Task) {
-        if !self.running {
+        if !running {
             finish()
         }
     }
@@ -137,7 +137,7 @@ class Manager: NSObject {
 
     let operation: UINavigationControllerOperation
     var duration: NSTimeInterval {
-        return self.before.duration + self.present.duration
+        return before.duration + present.duration
     }
 
     let before: Animator = Animator()

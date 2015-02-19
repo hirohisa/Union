@@ -66,7 +66,7 @@ class ArticleViewController: UIViewController {
         self.imageView.image = imageView.image
         self.imageView.bounds = imageView.bounds
         self.imageView.center = center
-        self.backgroundView.center = center
+        backgroundView.center = center
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -77,23 +77,23 @@ class ArticleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.edgesForExtendedLayout = .None
-        backgroundView.frame = self.view.frame
-        self.view.addSubview(backgroundView)
+        edgesForExtendedLayout = .None
+        backgroundView.frame = view.frame
+        view.addSubview(backgroundView)
         backgroundView.addSubview(imageView)
 
         configure_view()
-        let length = CGRectGetWidth(self.view.frame)
+        let length = CGRectGetWidth(view.frame)
 
         tableView.frame = CGRect(
             x: 0,
-            y: CGRectGetHeight(self.view.frame),
+            y: CGRectGetHeight(view.frame),
             width: length,
-            height: CGRectGetHeight(self.view.frame) - 200
+            height: CGRectGetHeight(view.frame) - 200
         )
         tableView.showsVerticalScrollIndicator = false
         tableView.registerClass(TableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
-        self.view.addSubview(tableView)
+        view.addSubview(tableView)
     }
 
     func configure_view() {

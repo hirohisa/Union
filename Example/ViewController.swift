@@ -21,12 +21,12 @@ class CollectionViewCell: UICollectionViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        imageView.frame = self.bounds
+        imageView.frame = bounds
 
         let mask = CAShapeLayer()
-        mask.path = self.circlePathWithRect(self.imageView.bounds).CGPath
-        self.imageView.layer.mask = mask
-        self.addSubview(imageView)
+        mask.path = circlePathWithRect(imageView.bounds).CGPath
+        imageView.layer.mask = mask
+        addSubview(imageView)
     }
 
     func circlePathWithRect(frame: CGRect) -> UIBezierPath {
@@ -40,16 +40,12 @@ class CollectionViewCell: UICollectionViewCell {
 
 class ViewController: UICollectionViewController {
 
-    var center: CGPoint = CGPointZero
-    var selectedCell: CollectionViewCell?
-
-    var imageView: UIImageView?
     override func viewDidLoad() {
         super.viewDidLoad()
         edgesForExtendedLayout = .None
 
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: CGRectGetWidth(self.collectionView!.frame), height: 200)
+        layout.itemSize = CGSize(width: CGRectGetWidth(collectionView!.frame), height: 200)
         collectionView?.collectionViewLayout = layout
         collectionView?.registerClass(CollectionViewCell.self, forCellWithReuseIdentifier: "cell")
     }
@@ -60,15 +56,14 @@ extension ViewController: UICollectionViewDelegate {
 
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? CollectionViewCell {
-            center = collectionView.convertPoint(cell.center, toView: self.view)
-            selectedCell = cell
+            let center = collectionView.convertPoint(cell.center, toView: view)
 
             let image = UIImage(named: "image")
 
             let viewController = ArticleViewController(imageView: cell.imageView, center: center)
 
-            self.navigationController?.delegate = self
-            self.navigationController?.pushViewController(viewController, animated: true)
+            navigationController?.delegate = self
+            navigationController?.pushViewController(viewController, animated: true)
         }
     }
 }
