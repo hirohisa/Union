@@ -9,43 +9,6 @@
 import UIKit
 import Union
 
-class TableViewCell: UITableViewCell {
-
-    var labels = [UILabel]()
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        labels = [UILabel(), UILabel(), UILabel()]
-        for l: UILabel in labels {
-            l.backgroundColor = UIColor.lightGrayColor()
-            addSubview(l)
-        }
-    }
-
-    required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        var x: CGFloat = {
-            if let imageView = self.imageView {
-                return CGFloat(CGRectGetMaxX(imageView.frame) + 15)
-            }
-
-            return 0.0
-        }()
-        var y: CGFloat = 5.0
-        labels[0].frame = CGRect(x: x, y: y, width: 40.0, height: 5.0)
-
-        y = CGRectGetMaxY(labels[0].frame) + 5
-        labels[1].frame = CGRect(x: x, y: y, width: 200.0, height: 10.0)
-
-        y = CGRectGetMaxY(labels[1].frame) + 5
-        labels[2].frame = CGRect(x: x, y: y, width: 160.0, height: 8.0)
-    }
-}
-
 class ArticleViewController: UIViewController {
 
     let imageView: UIImageView = {
@@ -60,7 +23,30 @@ class ArticleViewController: UIViewController {
         return view
     }()
 
-    let tableView = UITableView()
+    let textView: UITextView = {
+        let textView = UITextView()
+        textView.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 15.0)
+        textView.contentInset = UIEdgeInsets(top: 30, left: 0, bottom: 0, right: 0)
+
+        return textView
+    }()
+
+    let iconView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .ScaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.image = UIImage(named: "dribbble")
+        imageView.sizeToFit()
+        return imageView
+    }()
+
+    let texts: NSArray = [
+        "Orange (voiced by Dane Boedigheimer) is the lead protagonist and main character,appearing in every episode since the series began on October 9, 2009.",
+        "He has yellow teeth, grey eyes, and a braying laugh.",
+        "He is known for his annoying puns which he uses in every episode,although hardly any of the fruits seem to find his puns amusing.",
+        "His standard reply, uttered after being taken to task for being annoying, is, 'I'm not annoying,', 'I'm an orange!', Unlike many fruits think, Orange doesn't have control over his tendency to be annoying.",
+        "It was suggested by Mango in 'It takes two to Mango' that Orange is annoying because of the carnage he has seen during his life.",
+    ]
 
     required init(imageView: UIImageView, center: CGPoint) {
         self.imageView.image = imageView.image
@@ -77,55 +63,54 @@ class ArticleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = "The Annoying Orange?"
         edgesForExtendedLayout = .None
-        backgroundView.frame = view.frame
-        view.addSubview(backgroundView)
-        backgroundView.addSubview(imageView)
 
-        configure_view()
-        let length = CGRectGetWidth(view.frame)
-
-        tableView.frame = CGRect(
-            x: 0,
-            y: CGRectGetHeight(view.frame),
-            width: length,
-            height: CGRectGetHeight(view.frame) - 200
-        )
-        tableView.showsVerticalScrollIndicator = false
-        tableView.registerClass(TableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
-        view.addSubview(tableView)
+        configureBackgroundView()
+        configureTextView()
+        configureIconView()
     }
 
-    func configure_view() {
+    func configureBackgroundView() {
+        backgroundView.frame = view.frame
+
+        // background View
         let mask = CAShapeLayer()
         let center = imageView.center
         let path = UIBezierPath(arcCenter: center, radius: CGRectGetHeight(imageView.frame)/2, startAngle: 0, endAngle: 360, clockwise: true)
         mask.path = path.CGPath
         backgroundView.layer.mask = mask
+
+        view.addSubview(backgroundView)
+        backgroundView.addSubview(imageView)
     }
 
-}
+    func configureTextView() {
+        let length = CGRectGetWidth(view.frame)
 
-extension ArticleViewController: UITableViewDataSource {
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        textView.frame = CGRect(
+            x: 0,
+            y: CGRectGetHeight(view.frame),
+            width: length,
+            height: CGRectGetHeight(view.frame) - 200
+        )
+        textView.text = texts.componentsJoinedByString("\n")
+        textView.showsVerticalScrollIndicator = false
+        view.addSubview(textView)
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as TableViewCell
-
-        cell.imageView?.image = UIImage(named: "icon")
-
-        var index = indexPath.row
-
-        return cell
+    func configureIconView() {
+        iconView.center = CGPoint(x: CGRectGetWidth(view.frame) - 50, y: CGRectGetHeight(imageView.frame))
+        iconView.transform = CGAffineTransformMakeScale(0.0, 0.0)
+        view.addSubview(iconView)
     }
+
 }
 
 extension ArticleViewController: Union.Delegate {
 
     func tasksDuringTransition(operation: UINavigationControllerOperation) -> [Task] {
-        return [revealAnimationTask(), switchLayerTask(), slideImageViewAnimationTask(), slideTableViewAnimationTask()]
+        return [revealAnimationTask(), switchLayerTask(), slideImageViewAnimationTask(), slideTextViewAnimationTask(), scaleIconVIewAnimationTask()]
     }
 
     func revealAnimationTask() -> Task {
@@ -167,19 +152,30 @@ extension ArticleViewController: Union.Delegate {
         return task
     }
 
-    func slideTableViewAnimationTask() -> Task {
+    func slideTextViewAnimationTask() -> Task {
         let length = CGRectGetWidth(view.frame)
 
-        let position = CGPoint(x: tableView.layer.position.x, y: CGRectGetHeight(imageView.frame) + CGRectGetHeight(tableView.frame)/2)
+        let position = CGPoint(x: textView.layer.position.x, y: CGRectGetHeight(imageView.frame) + CGRectGetHeight(textView.frame)/2)
 
         let animation = CABasicAnimation(keyPath: "position")
-        animation.fromValue = NSValue(CGPoint: tableView.layer.position)
+        animation.fromValue = NSValue(CGPoint: textView.layer.position)
         animation.toValue = NSValue(CGPoint: position)
         animation.duration = 0.3
 
-        let task = Task(layer:tableView.layer, animation:animation)
+        let task = Task(layer:textView.layer, animation:animation)
         task.delay = 0.3
         return task
     }
-}
 
+    func scaleIconVIewAnimationTask() -> Task {
+
+        let animation = CABasicAnimation(keyPath: "transform.scale")
+        animation.fromValue = 0.0
+        animation.toValue = 0.5
+        animation.duration = 0.1
+
+        let task = Task(layer:iconView.layer, animation:animation)
+        task.delay = 0.6
+        return task
+    }
+}
