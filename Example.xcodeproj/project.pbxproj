@@ -7,18 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6508E83E1A94C11C007AD31D /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = 6508E83D1A94C11C007AD31D /* image.png */; };
+		6508E83E1A94C11C007AD31D /* orange.png in Resources */ = {isa = PBXBuildFile; fileRef = 6508E83D1A94C11C007AD31D /* orange.png */; };
 		655747591A8CA14C00D3595C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655747581A8CA14C00D3595C /* AppDelegate.swift */; };
 		6557475B1A8CA14C00D3595C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6557475A1A8CA14C00D3595C /* ViewController.swift */; };
 		6557475E1A8CA14C00D3595C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6557475C1A8CA14C00D3595C /* Main.storyboard */; };
 		655747601A8CA14C00D3595C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6557475F1A8CA14C00D3595C /* Images.xcassets */; };
 		655747631A8CA14C00D3595C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 655747611A8CA14C00D3595C /* LaunchScreen.xib */; };
 		657A30821A95BE2F00E3475C /* Union.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 657A30811A95BE2F00E3475C /* Union.framework */; };
+		6591EB631A97013400C18ADB /* dribbble.png in Resources */ = {isa = PBXBuildFile; fileRef = 6591EB621A97013400C18ADB /* dribbble.png */; };
 		65D3950F1A8DB23900DA346C /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D3950E1A8DB23900DA346C /* ArticleViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6508E83D1A94C11C007AD31D /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image.png; sourceTree = "<group>"; };
+		6508E83D1A94C11C007AD31D /* orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = orange.png; sourceTree = "<group>"; };
 		655747531A8CA14C00D3595C /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		655747571A8CA14C00D3595C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		655747581A8CA14C00D3595C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -27,6 +28,7 @@
 		6557475F1A8CA14C00D3595C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		655747621A8CA14C00D3595C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		657A30811A95BE2F00E3475C /* Union.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Union.framework; path = "../../../Library/Developer/Xcode/DerivedData/AnimationKit-cbeoxshnozlyeseoaizfuleaivto/Build/Products/Debug-iphoneos/Union.framework"; sourceTree = "<group>"; };
+		6591EB621A97013400C18ADB /* dribbble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dribbble.png; sourceTree = "<group>"; };
 		65D3950E1A8DB23900DA346C /* ArticleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,7 +70,8 @@
 				6557475C1A8CA14C00D3595C /* Main.storyboard */,
 				6557475F1A8CA14C00D3595C /* Images.xcassets */,
 				655747611A8CA14C00D3595C /* LaunchScreen.xib */,
-				6508E83D1A94C11C007AD31D /* image.png */,
+				6508E83D1A94C11C007AD31D /* orange.png */,
+				6591EB621A97013400C18ADB /* dribbble.png */,
 				655747561A8CA14C00D3595C /* Supporting Files */,
 			);
 			path = Example;
@@ -140,9 +143,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				6557475E1A8CA14C00D3595C /* Main.storyboard in Resources */,
+				6591EB631A97013400C18ADB /* dribbble.png in Resources */,
 				655747631A8CA14C00D3595C /* LaunchScreen.xib in Resources */,
 				655747601A8CA14C00D3595C /* Images.xcassets in Resources */,
-				6508E83E1A94C11C007AD31D /* image.png in Resources */,
+				6508E83E1A94C11C007AD31D /* orange.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

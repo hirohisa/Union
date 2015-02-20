@@ -43,11 +43,18 @@ class ViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         edgesForExtendedLayout = .None
+        title = "Oranges"
 
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: CGRectGetWidth(collectionView!.frame), height: 200)
         collectionView?.collectionViewLayout = layout
         collectionView?.registerClass(CollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.tintColor = UIColor.blackColor()
+        navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
     }
 
 }
@@ -58,7 +65,7 @@ extension ViewController: UICollectionViewDelegate {
         if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? CollectionViewCell {
             let center = collectionView.convertPoint(cell.center, toView: view)
 
-            let image = UIImage(named: "image")
+            let image = cell.imageView.image
 
             let viewController = ArticleViewController(imageView: cell.imageView, center: center)
 
@@ -79,7 +86,7 @@ extension ViewController: UICollectionViewDataSource {
     {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as CollectionViewCell
 
-        cell.imageView.image = UIImage(named: "image")
+        cell.imageView.image = UIImage(named: "orange")
 
         return cell
     }
