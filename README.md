@@ -1,7 +1,7 @@
 Union
 ==========
 
-Context transitioning's animation manager.
+Context transitioning's animation manager for iOS written in Swift.
 
 Requirements
 ----------
