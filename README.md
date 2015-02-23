@@ -92,7 +92,10 @@ public protocol Delegate {
 
 ```swift
 extension ViewController: UINavigationControllerDelegate {
-    func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func navigationController(navigationController: UINavigationController,
+         animationControllerForOperation operation: UINavigationControllerOperation,
+                         fromViewController fromVC: UIViewController,
+                             toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return Union.transition(operation)
     }
 }
