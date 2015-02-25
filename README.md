@@ -16,6 +16,13 @@ I create sample animation with Union, it is like "[User-Profile-Interface-Animat
 
 ![ ](https://raw.github.com/hirohisa/Union/master/Gif/sample.gif)
 
+Features
+----------
+
+- [x] Support CABasicAnimation.
+- [ ] Support CAKeyframeAnimation.
+- [ ] Support UIView.animateWithDuration Block.
+
 
 Usage
 ----------
