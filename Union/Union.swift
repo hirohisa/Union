@@ -15,9 +15,33 @@ public protocol Delegate {
     optional func tasksDuringTransition(operation: UINavigationControllerOperation) -> [Task]
 }
 
+@objc
+protocol Animation {
+    var valueAfterAnimation: AnyObject { get }
+    var keyPath: String! { get set }
+}
+
+extension CAPropertyAnimation: Animation {
+    var valueAfterAnimation: AnyObject {
+        return 0
+    }
+}
+
+extension CABasicAnimation: Animation {
+    override var valueAfterAnimation: AnyObject {
+        return toValue
+    }
+}
+
+extension CAKeyframeAnimation: Animation {
+    override var valueAfterAnimation: AnyObject {
+        return values.last!
+    }
+}
+
 public class Task {
     let layer: CALayer?
-    let animation: CABasicAnimation?
+    let animation: CAPropertyAnimation?
 
     // public property
     public var delay: NSTimeInterval = 0.0
@@ -26,7 +50,7 @@ public class Task {
     var delegate: Animator?
     var finished: Bool = false
 
-    public init(layer: CALayer, animation: CABasicAnimation) {
+    public init(layer: CALayer, animation: CAPropertyAnimation) {
         self.layer = layer
         self.animation = animation
     }
@@ -53,8 +77,8 @@ public class Task {
     func _start() {
         if let _layer = layer {
             _layer.addAnimation(animation, forKey: animation!.keyPath.hash.description)
-            if let toValue: AnyObject = animation!.toValue {
-                _layer.setValue(toValue, forKeyPath: animation!.keyPath)
+            if let animation = animation as? Animation {
+                _layer.setValue(animation.valueAfterAnimation, forKeyPath: animation.keyPath)
             }
         } else {
             finish()
