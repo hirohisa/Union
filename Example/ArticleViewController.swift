@@ -169,9 +169,8 @@ extension ArticleViewController: Union.Delegate {
 
     func scaleIconVIewAnimationTask() -> Task {
 
-        let animation = CABasicAnimation(keyPath: "transform.scale")
-        animation.fromValue = 0.0
-        animation.toValue = 0.5
+        let animation = CAKeyframeAnimation(keyPath: "transform.scale")
+        animation.values = [0.0, 0.1, 0.2, 0.3, 0.5]
         animation.duration = 0.1
 
         let task = Task(layer:iconView.layer, animation:animation)

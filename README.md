@@ -20,7 +20,7 @@ Features
 ----------
 
 - [x] Support CABasicAnimation.
-- [ ] Support CAKeyframeAnimation.
+- [x] Support CAKeyframeAnimation.
 - [ ] Support UIView.animateWithDuration Block.
 
 
