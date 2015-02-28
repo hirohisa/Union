@@ -2,12 +2,31 @@ Union
 ==========
 
 Context transitioning's animation manager for iOS written in Swift.
+Create animation tasks for each layer's animation and deliver tasks on Union.Delegate.
 
 Requirements
 ----------
 
 - iOS 7.0+
 - Xcode 6.1.1
+
+Installation
+----------
+
+It is the way to use this in your project:
+
+- Add Union as a submodule by opening the Terminal, trying to enter the command
+```
+git submodule add https://github.com/hirohisa/Union.git
+```
+
+- Install with CocoaPods to write Podfile
+
+```ruby
+pod 'Union', '~> 0.0.1'
+```
+
+- Copy ImageLoader class files into your project
 
 Sample
 ----------
