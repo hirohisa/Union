@@ -26,8 +26,6 @@ git submodule add https://github.com/hirohisa/Union.git
 pod 'Union', '~> 0.0.1'
 ```
 
-- Copy ImageLoader class files into your project
-
 Sample
 ----------
 
