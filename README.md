@@ -78,7 +78,7 @@ public class Task {
     public var delay: NSTimeInterval = 0.0 // animation start after delay time
     public var completion: () -> () = {} // block called when animation is finished
 
-    public init(layer: CALayer, animation: CABasicAnimation) {
+    public init(layer: CALayer, animation: CAPropertyAnimation) {
         self.layer = layer
         self.animation = animation
     }

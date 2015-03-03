@@ -44,8 +44,8 @@ public class Task {
     let animation: CAPropertyAnimation?
 
     // public property
-    public var delay: NSTimeInterval = 0.0
-    public var completion: () -> () = {}
+    public var delay: NSTimeInterval = 0.0 // animation start after delay time
+    public var completion: () -> () = {} // block called when animation is finished
 
     var delegate: Animator?
     var finished: Bool = false
