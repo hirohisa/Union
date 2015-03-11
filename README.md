@@ -8,7 +8,7 @@ Requirements
 ----------
 
 - iOS 7.0+
-- Xcode 6.1.1
+- Xcode 6.3 Swift 1.2
 
 Installation
 ----------
