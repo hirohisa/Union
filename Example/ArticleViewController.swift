@@ -115,7 +115,7 @@ extension ArticleViewController: Union.Delegate {
 
     func revealAnimationTask() -> Task {
 
-        let mask = backgroundView.layer.mask as CAShapeLayer
+        let mask = backgroundView.layer.mask as! CAShapeLayer
         let startPath = mask.path
         let endPath = UIBezierPath(arcCenter: imageView.center, radius: CGRectGetHeight(view.frame)/2, startAngle: 0, endAngle: 360, clockwise: true).CGPath
 

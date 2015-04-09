@@ -40,8 +40,8 @@ extension CAKeyframeAnimation: Animation {
 }
 
 public class Task {
-    let layer: CALayer?
-    let animation: CAPropertyAnimation?
+    var layer: CALayer?
+    var animation: CAPropertyAnimation?
 
     // public property
     public var delay: NSTimeInterval = 0.0 // animation start after delay time
