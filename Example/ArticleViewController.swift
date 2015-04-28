@@ -71,6 +71,11 @@ class ArticleViewController: UIViewController {
         configureIconView()
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.delegate = nil
+    }
+
     func configureBackgroundView() {
         backgroundView.frame = view.frame
 
