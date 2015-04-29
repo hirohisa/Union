@@ -73,18 +73,15 @@ public class Task {
         }
 
         let after = delay * Double(NSEC_PER_SEC)
-        let time  = dispatch_time(DISPATCH_TIME_NOW, Int64(after))
-        dispatch_after(time, dispatch_get_main_queue(), {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(after)), dispatch_get_main_queue()) {
             self._start()
-        })
+        }
     }
 
-    func _start() {
-        if let _layer = layer {
-            _layer.addAnimation(animation, forKey: animation!.keyPath.hash.description)
-            if let animation = animation as? Animation {
-                _layer.setValue(animation.valueAfterAnimation, forKeyPath: animation.keyPath)
-            }
+    private func _start() {
+        if let layer = layer, let animation = animation {
+            layer.addAnimation(animation, forKey: animation.keyPath.hash.description)
+            layer.setValue(animation.valueAfterAnimation, forKeyPath: animation.keyPath)
         } else {
             finish()
         }
@@ -109,9 +106,10 @@ class Animator {
 
     var duration: NSTimeInterval {
 
+        // find most time at finishing task
         var duration = 0.0
-        for task: Task in tasks {
-            var d: NSTimeInterval = {
+        for task in tasks {
+            var _duration: NSTimeInterval = {
                 if let animation = task.animation {
                     return task.delay + animation.duration
                 }
@@ -119,18 +117,18 @@ class Animator {
                 return task.delay
             }()
 
-            if duration < d {
-                duration = d
+            if duration < _duration {
+                duration = _duration
             }
         }
 
         return duration
     }
 
-    var tasks: [Task] = [Task]()
+    var tasks = [Task]()
     var completion: () -> () = {}
     var running: Bool {
-        for task: Task in tasks {
+        for task in tasks {
             if !task.finished {
                 return true
             }
@@ -147,7 +145,7 @@ class Animator {
             finish()
         }
 
-        for task: Task in tasks {
+        for task in tasks {
             task.delegate = self
             task.start()
         }
@@ -171,8 +169,8 @@ class Manager: NSObject {
         return before.duration + present.duration
     }
 
-    let before: Animator = Animator()
-    let present: Animator = Animator()
+    let before = Animator()
+    let present = Animator()
 
     init(operation: UINavigationControllerOperation)  {
         self.operation = operation
@@ -184,40 +182,20 @@ class Manager: NSObject {
         }
         _startBefore(context)
     }
-
-    func _startBefore(context: UIViewControllerContextTransitioning) {
-        before.completion = {
-            self._startPresent(context)
-        }
-
-        before.start()
-    }
-
-    func _startPresent(context: UIViewControllerContextTransitioning) {
-        let frame = context.finalFrameForViewController(context.viewControllerForKey(UITransitionContextToViewControllerKey)!)
-        let fromView = context.viewForKey(UITransitionContextFromViewKey)!
-        let toView = context.viewForKey(UITransitionContextToViewKey)!
-        toView.frame = frame
-        context.containerView().insertSubview(toView, aboveSubview: fromView)
-
-        present.completion = {
-            fromView.removeFromSuperview()
-            context.completeTransition(true)
-        }
-        present.start()
-    }
 }
 
 extension Manager {
 
-    func setup(context: UIViewControllerContextTransitioning) {
+    // MARK: setup tasks before running
+
+    private func setup(context: UIViewControllerContextTransitioning) {
         let fromVC: UIViewController = context.viewControllerForKey(UITransitionContextFromViewControllerKey)!
         let toVC: UIViewController = context.viewControllerForKey(UITransitionContextToViewControllerKey)!
 
         _setupTasks(fromVC: fromVC as? Delegate, toVC: toVC as? Delegate)
     }
 
-    func _setupTasks(#fromVC: Delegate?, toVC: Delegate?) {
+    private func _setupTasks(#fromVC: Delegate?, toVC: Delegate?) {
         // before
         if let tasks = fromVC?.tasksBeforeTransition?(operation) {
             before.tasks = tasks
@@ -233,6 +211,30 @@ extension Manager {
         }
 
         present.tasks = tasks
+    }
+
+    // MARK: run with animation tasks
+
+    private func _startBefore(context: UIViewControllerContextTransitioning) {
+        before.completion = {
+            self._startPresent(context)
+        }
+
+        before.start()
+    }
+
+    private func _startPresent(context: UIViewControllerContextTransitioning) {
+        let frame = context.finalFrameForViewController(context.viewControllerForKey(UITransitionContextToViewControllerKey)!)
+        let fromView = context.viewForKey(UITransitionContextFromViewKey)!
+        let toView = context.viewForKey(UITransitionContextToViewKey)!
+        toView.frame = frame
+        context.containerView().insertSubview(toView, aboveSubview: fromView)
+
+        present.completion = {
+            fromView.removeFromSuperview()
+            context.completeTransition(true)
+        }
+        present.start()
     }
 }
 
