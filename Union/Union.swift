@@ -15,6 +15,8 @@ public protocol Delegate {
     optional func tasksDuringTransition(operation: UINavigationControllerOperation) -> [Task]
 }
 
+// Protocol Animation
+
 @objc
 protocol Animation {
     var valueAfterAnimation: AnyObject { get }
@@ -39,7 +41,10 @@ extension CAKeyframeAnimation: Animation {
     }
 }
 
+// Task
+
 public class Task {
+
     var layer: CALayer?
     var animation: CAPropertyAnimation?
 
@@ -101,6 +106,7 @@ public class Task {
 }
 
 class Animator {
+
     var duration: NSTimeInterval {
 
         var duration = 0.0
@@ -120,6 +126,7 @@ class Animator {
 
         return duration
     }
+
     var tasks: [Task] = [Task]()
     var completion: () -> () = {}
     var running: Bool {
@@ -202,6 +209,7 @@ class Manager: NSObject {
 }
 
 extension Manager {
+
     func setup(context: UIViewControllerContextTransitioning) {
         let fromVC: UIViewController = context.viewControllerForKey(UITransitionContextFromViewControllerKey)!
         let toVC: UIViewController = context.viewControllerForKey(UITransitionContextToViewControllerKey)!
@@ -226,10 +234,10 @@ extension Manager {
 
         present.tasks = tasks
     }
-
 }
 
 extension Manager: UIViewControllerAnimatedTransitioning {
+
     func animateTransition(context: UIViewControllerContextTransitioning) {
         start(context)
     }
