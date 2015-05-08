@@ -48,7 +48,7 @@ public class Task {
     var animation: CAPropertyAnimation?
 
     // public property
-    public var delay: NSTimeInterval = 0.0 // animation start after delay time
+    public var delay: NSTimeInterval = 0 // animation start after delay time
     public var completion: () -> () = {} // block called when animation is finished
 
     var delegate: Animator?
@@ -66,7 +66,7 @@ public class Task {
 
     func start() {
         animation?.delegate = self
-        if delay == 0.0 {
+        if delay == 0 {
             _start()
             return
         }
@@ -106,7 +106,7 @@ class Animator {
     var duration: NSTimeInterval {
 
         // find most time at finishing task
-        var duration = 0.0
+        var duration: NSTimeInterval = 0
         for task in tasks {
             var _duration: NSTimeInterval = {
                 if let animation = task.animation {
