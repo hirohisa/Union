@@ -17,7 +17,6 @@ public protocol Delegate {
 
 // Protocol Animation
 
-@objc
 protocol Animation {
     var valueAfterAnimation: AnyObject { get }
     var keyPath: String! { get set }
