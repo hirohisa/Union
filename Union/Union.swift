@@ -17,24 +17,24 @@ public protocol Delegate {
 
 // Protocol Animation
 
-protocol Animation {
+protocol CAPropertyAnimationPotocol {
     var valueAfterAnimation: AnyObject { get }
     var keyPath: String! { get set }
 }
 
-extension CAPropertyAnimation: Animation {
+extension CAPropertyAnimation: CAPropertyAnimationPotocol {
     var valueAfterAnimation: AnyObject {
         return 0
     }
 }
 
-extension CABasicAnimation: Animation {
+extension CABasicAnimation: CAPropertyAnimationPotocol {
     override var valueAfterAnimation: AnyObject {
         return toValue
     }
 }
 
-extension CAKeyframeAnimation: Animation {
+extension CAKeyframeAnimation: CAPropertyAnimationPotocol {
     override var valueAfterAnimation: AnyObject {
         return values.last!
     }
