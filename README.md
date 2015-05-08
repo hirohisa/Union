@@ -121,7 +121,7 @@ public protocol Delegate {
 
   Tasks called by two `UIViewController`s start during transition. `context.completeTransition(true)` is called after all tasks are completed.
 
-#### Call Union transition on UINavigationControllerDelegate
+#### Animation start on UINavigationControllerDelegate
 
 ```swift
 extension ViewController: UINavigationControllerDelegate {
@@ -129,7 +129,7 @@ extension ViewController: UINavigationControllerDelegate {
          animationControllerForOperation operation: UINavigationControllerOperation,
                          fromViewController fromVC: UIViewController,
                              toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return Union.transition(operation)
+        return Union.animate(operation)
     }
 }
 ```

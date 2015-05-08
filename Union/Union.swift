@@ -248,6 +248,6 @@ extension Manager: UIViewControllerAnimatedTransitioning {
     }
 }
 
-public func transition(operation: UINavigationControllerOperation) -> UIViewControllerAnimatedTransitioning {
+public func animate(operation: UINavigationControllerOperation) -> UIViewControllerAnimatedTransitioning {
     return Manager(operation: operation)
 }

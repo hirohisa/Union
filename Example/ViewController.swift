@@ -97,7 +97,7 @@ extension ViewController: UINavigationControllerDelegate {
 
         switch operation {
         case .Push:
-            return Union.transition(operation)
+            return Union.animate(operation)
         default:
             break
         }
