@@ -47,6 +47,7 @@ Features
 - [x] Support CABasicAnimation.
 - [x] Support CAKeyframeAnimation.
 - [ ] Support UIView.animateWithDuration Block.
+- [ ] Linked to other tasks
 - [ ] Control animation with Segue
 
 
