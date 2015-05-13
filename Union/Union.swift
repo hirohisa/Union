@@ -51,8 +51,8 @@ public class Task {
     public var delay: NSTimeInterval = 0 // animation start after delay time
     public var completion: () -> () = {} // block called when animation is finished
 
-    var delegate: Animator?
-    var finished: Bool = false
+    weak var delegate: Animator?
+    var finished = false
 
     public init(layer: CALayer, animation: CAPropertyAnimation) {
         self.layer = layer
@@ -134,9 +134,6 @@ class Animator {
         }
 
         return false
-    }
-
-    init() {
     }
 
     func start() {
