@@ -245,3 +245,8 @@ extension Manager: UIViewControllerAnimatedTransitioning {
 public func animate() -> UIViewControllerAnimatedTransitioning? {
     return Manager()
 }
+
+public func animate(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+
+    return Manager()
+}
