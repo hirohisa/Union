@@ -10,8 +10,8 @@ import UIKit
 
 @objc
 public protocol Delegate {
-    optional func tasksBeforeTransition() -> [Task]
-    optional func tasksDuringTransition() -> [Task]
+    optional func tasksBeforeTransitionTo(viewController: UIViewController) -> [Task]
+    optional func tasksDuringTransitionFrom(viewController: UIViewController) -> [Task]
 }
 
 // Protocol Animation
@@ -185,22 +185,22 @@ extension Manager {
         let fromVC: UIViewController = context.viewControllerForKey(UITransitionContextFromViewControllerKey)!
         let toVC: UIViewController = context.viewControllerForKey(UITransitionContextToViewControllerKey)!
 
-        _setupTasks(fromVC: fromVC as? Delegate, toVC: toVC as? Delegate)
+        _setupTasks(fromVC: fromVC, toVC: toVC)
     }
 
-    private func _setupTasks(#fromVC: Delegate?, toVC: Delegate?) {
+    private func _setupTasks(#fromVC: UIViewController, toVC: UIViewController) {
         // before
-        if let tasks = fromVC?.tasksBeforeTransition?() {
-            before.tasks = tasks
+        if let delegate = fromVC as? Delegate, let _tasks = delegate.tasksBeforeTransitionTo?(toVC) {
+            before.tasks = _tasks
         }
 
         // present
         var tasks: [Task] = [Task]()
-        if let ts = fromVC?.tasksDuringTransition?() {
-            tasks += ts
+        if let delegate = fromVC as? Delegate, let _tasks = delegate.tasksDuringTransitionFrom?(fromVC) {
+            tasks += _tasks
         }
-        if let ts = toVC?.tasksDuringTransition?() {
-            tasks += ts
+        if let delegate = toVC as? Delegate, let _tasks = delegate.tasksDuringTransitionFrom?(fromVC) {
+            tasks += _tasks
         }
 
         present.tasks = tasks
