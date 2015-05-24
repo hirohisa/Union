@@ -7,12 +7,11 @@
 //
 
 import UIKit
-import QuartzCore
 
 @objc
 public protocol Delegate {
-    optional func tasksBeforeTransition(operation: UINavigationControllerOperation) -> [Task]
-    optional func tasksDuringTransition(operation: UINavigationControllerOperation) -> [Task]
+    optional func tasksBeforeTransition() -> [Task]
+    optional func tasksDuringTransition() -> [Task]
 }
 
 // Protocol Animation
@@ -51,8 +50,8 @@ public class Task {
     public var delay: NSTimeInterval = 0 // animation start after delay time
     public var completion: () -> () = {} // block called when animation is finished
 
-    var delegate: Animator?
-    var finished: Bool = false
+    weak var delegate: Animator?
+    var finished = false
 
     public init(layer: CALayer, animation: CAPropertyAnimation) {
         self.layer = layer
@@ -136,9 +135,6 @@ class Animator {
         return false
     }
 
-    init() {
-    }
-
     func start() {
         if !running {
             finish()
@@ -163,7 +159,6 @@ class Animator {
 
 class Manager: NSObject {
 
-    let operation: UINavigationControllerOperation
     var duration: NSTimeInterval {
         return before.duration + present.duration
     }
@@ -171,8 +166,7 @@ class Manager: NSObject {
     let before = Animator()
     let present = Animator()
 
-    init(operation: UINavigationControllerOperation)  {
-        self.operation = operation
+    override init()  {
     }
 
     func start(context: UIViewControllerContextTransitioning) {
@@ -196,16 +190,16 @@ extension Manager {
 
     private func _setupTasks(#fromVC: Delegate?, toVC: Delegate?) {
         // before
-        if let tasks = fromVC?.tasksBeforeTransition?(operation) {
+        if let tasks = fromVC?.tasksBeforeTransition?() {
             before.tasks = tasks
         }
 
         // present
         var tasks: [Task] = [Task]()
-        if let ts = fromVC?.tasksDuringTransition?(operation) {
+        if let ts = fromVC?.tasksDuringTransition?() {
             tasks += ts
         }
-        if let ts = toVC?.tasksDuringTransition?(operation) {
+        if let ts = toVC?.tasksDuringTransition?() {
             tasks += ts
         }
 
@@ -248,6 +242,6 @@ extension Manager: UIViewControllerAnimatedTransitioning {
     }
 }
 
-public func transition(operation: UINavigationControllerOperation) -> UIViewControllerAnimatedTransitioning {
-    return Manager(operation: operation)
+public func animate() -> UIViewControllerAnimatedTransitioning? {
+    return Manager()
 }

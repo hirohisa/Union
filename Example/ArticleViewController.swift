@@ -114,7 +114,7 @@ class ArticleViewController: UIViewController {
 
 extension ArticleViewController: Union.Delegate {
 
-    func tasksDuringTransition(operation: UINavigationControllerOperation) -> [Task] {
+    func tasksDuringTransition() -> [Task] {
         return [revealAnimationTask(), switchLayerTask(), slideImageViewAnimationTask(), slideTextViewAnimationTask(), scaleIconVIewAnimationTask()]
     }
 

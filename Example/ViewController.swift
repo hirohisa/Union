@@ -95,14 +95,7 @@ extension ViewController: UICollectionViewDataSource {
 extension ViewController: UINavigationControllerDelegate {
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
-        switch operation {
-        case .Push:
-            return Union.transition(operation)
-        default:
-            break
-        }
-
-        return nil
+        return Union.animate()
     }
 
     func navigationController(navigationController: UINavigationController, interactionControllerForAnimationController animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
