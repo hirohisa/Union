@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import QuartzCore
 
 @objc
 public protocol Delegate {
@@ -243,6 +242,6 @@ extension Manager: UIViewControllerAnimatedTransitioning {
     }
 }
 
-public func animate(operation: UINavigationControllerOperation) -> UIViewControllerAnimatedTransitioning {
+public func animate(operation: UINavigationControllerOperation) -> UIViewControllerAnimatedTransitioning? {
     return Manager()
 }
