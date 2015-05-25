@@ -49,6 +49,8 @@ class ViewController: UICollectionViewController {
         layout.itemSize = CGSize(width: CGRectGetWidth(collectionView!.frame), height: 200)
         collectionView?.collectionViewLayout = layout
         collectionView?.registerClass(CollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "overlay", style: .Plain, target: self, action: "showPresentation")
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -57,6 +59,15 @@ class ViewController: UICollectionViewController {
         navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
     }
 
+    func showPresentation() {
+        let viewController = UITableViewController()
+        viewController.title = "Presentation"
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .Custom
+        navigationController.transitioningDelegate = self
+
+        presentViewController(navigationController, animated: true, completion: nil)
+    }
 }
 
 extension ViewController: UICollectionViewDelegate {
@@ -99,5 +110,18 @@ extension ViewController: UINavigationControllerDelegate {
     func navigationController(navigationController: UINavigationController, interactionControllerForAnimationController animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
 
         return nil
+    }
+}
+
+extension ViewController: UIViewControllerTransitioningDelegate {
+
+    func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController!, sourceViewController source: UIViewController) -> UIPresentationController? {
+
+        return UIPresentationController(presentedViewController: presented, presentingViewController: presentingViewController)
+    }
+
+    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+
+        return Union.animate()
     }
 }
