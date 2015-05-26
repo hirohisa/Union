@@ -229,7 +229,14 @@ extension Manager {
         context.containerView().insertSubview(toViewController!.view, aboveSubview: fromViewController!.view)
 
         present.completion = {
-            fromViewController!.view.removeFromSuperview()
+
+            switch context.presentationStyle() {
+            case .None:
+                fromViewController!.view.removeFromSuperview()
+            default:
+                break
+            }
+
             context.completeTransition(true)
         }
         present.start()
