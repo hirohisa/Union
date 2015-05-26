@@ -60,8 +60,8 @@ class ViewController: UICollectionViewController {
     }
 
     func showPresentation() {
-        let viewController = UITableViewController()
-        viewController.title = "Presentation"
+
+        let viewController = ProfileViewController()
         let navigationController = UINavigationController(rootViewController: viewController)
         navigationController.modalPresentationStyle = .Custom
         navigationController.transitioningDelegate = self
@@ -124,4 +124,10 @@ extension ViewController: UIViewControllerTransitioningDelegate {
 
         return Union.animate(fromViewController: presenting, toViewController: presented)
     }
+
+    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+
+        return nil//Union.animate(fromViewController: dismissed, toViewController: self)
+    }
+
 }
