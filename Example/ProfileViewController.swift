@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Union
 
 class ProfileViewController: UIViewController {
 
@@ -22,4 +23,11 @@ class ProfileViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 
+}
+
+extension ProfileViewController: Union.Delegate {
+
+    func tasksDuringTransitionFrom(viewController: UIViewController) -> [Task] {
+        return []
+    }
 }
