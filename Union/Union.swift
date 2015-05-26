@@ -182,28 +182,30 @@ extension Manager {
     // MARK: setup tasks before running
 
     private func setup(context: UIViewControllerContextTransitioning) {
-        let fromVC: UIViewController = context.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-        let toVC: UIViewController = context.viewControllerForKey(UITransitionContextToViewControllerKey)!
+        let fromViewController: UIViewController = context.viewControllerForKey(UITransitionContextFromViewControllerKey)!
+        let toViewController: UIViewController = context.viewControllerForKey(UITransitionContextToViewControllerKey)!
 
-        _setupTasks(fromVC: fromVC, toVC: toVC)
+        animate(fromViewController: fromViewController, toViewController: toViewController)
     }
 
-    private func _setupTasks(#fromVC: UIViewController, toVC: UIViewController) {
+    func animate(#fromViewController: UIViewController, toViewController: UIViewController) -> Self {
         // before
-        if let delegate = fromVC as? Delegate, let _tasks = delegate.tasksBeforeTransitionTo?(toVC) {
+        if let delegate = fromViewController as? Delegate, let _tasks = delegate.tasksBeforeTransitionTo?(toViewController) {
             before.tasks = _tasks
         }
 
         // present
         var tasks: [Task] = [Task]()
-        if let delegate = fromVC as? Delegate, let _tasks = delegate.tasksDuringTransitionFrom?(fromVC) {
+        if let delegate = fromViewController as? Delegate, let _tasks = delegate.tasksDuringTransitionFrom?(fromViewController) {
             tasks += _tasks
         }
-        if let delegate = toVC as? Delegate, let _tasks = delegate.tasksDuringTransitionFrom?(fromVC) {
+        if let delegate = toViewController as? Delegate, let _tasks = delegate.tasksDuringTransitionFrom?(fromViewController) {
             tasks += _tasks
         }
 
         present.tasks = tasks
+
+        return self
     }
 
     // MARK: run with animation tasks
@@ -217,14 +219,17 @@ extension Manager {
     }
 
     private func _startPresent(context: UIViewControllerContextTransitioning) {
-        let frame = context.finalFrameForViewController(context.viewControllerForKey(UITransitionContextToViewControllerKey)!)
-        let fromView = context.viewForKey(UITransitionContextFromViewKey)!
-        let toView = context.viewForKey(UITransitionContextToViewKey)!
-        toView.frame = frame
-        context.containerView().insertSubview(toView, aboveSubview: fromView)
+        let fromViewController = context.viewControllerForKey(UITransitionContextFromViewControllerKey)
+        let toViewController = context.viewControllerForKey(UITransitionContextToViewControllerKey)
+
+        let frame = context.finalFrameForViewController(toViewController!)
+
+
+        toViewController!.view.frame = frame
+        context.containerView().insertSubview(toViewController!.view, aboveSubview: fromViewController!.view)
 
         present.completion = {
-            fromView.removeFromSuperview()
+            fromViewController!.view.removeFromSuperview()
             context.completeTransition(true)
         }
         present.start()
@@ -244,4 +249,9 @@ extension Manager: UIViewControllerAnimatedTransitioning {
 
 public func animate() -> UIViewControllerAnimatedTransitioning? {
     return Manager()
+}
+
+public func animate(#fromViewController: UIViewController, #toViewController: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+
+    return Manager().animate(fromViewController: fromViewController, toViewController: toViewController)
 }

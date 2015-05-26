@@ -122,6 +122,6 @@ extension ViewController: UIViewControllerTransitioningDelegate {
 
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
-        return Union.animate()
+        return Union.animate(fromViewController: presenting, toViewController: presented)
     }
 }
