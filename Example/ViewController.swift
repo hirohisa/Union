@@ -117,7 +117,7 @@ extension ViewController: UIViewControllerTransitioningDelegate {
 
     func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController!, sourceViewController source: UIViewController) -> UIPresentationController? {
 
-        return UIPresentationController(presentedViewController: presented, presentingViewController: presentingViewController)
+        return PresentationController(presentedViewController: presented, presentingViewController: presentingViewController)
     }
 
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
