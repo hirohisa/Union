@@ -222,17 +222,15 @@ extension Manager {
         let fromViewController = context.viewControllerForKey(UITransitionContextFromViewControllerKey)
         let toViewController = context.viewControllerForKey(UITransitionContextToViewControllerKey)
 
-        let frame = context.finalFrameForViewController(toViewController!)
-
-
-        toViewController!.view.frame = frame
-        context.containerView().insertSubview(toViewController!.view, aboveSubview: fromViewController!.view)
+        if let toView = toViewController?.view, let fromView = fromViewController?.view {
+            context.containerView().insertSubview(toView, aboveSubview: fromView)
+        }
 
         present.completion = {
 
             switch context.presentationStyle() {
             case .None:
-                fromViewController!.view.removeFromSuperview()
+                fromViewController?.view.removeFromSuperview()
             default:
                 break
             }
