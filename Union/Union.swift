@@ -177,29 +177,59 @@ class Manager: NSObject {
     }
 }
 
+extension Manager: UIViewControllerAnimatedTransitioning {
+
+    func animateTransition(context: UIViewControllerContextTransitioning) {
+        start(context)
+    }
+
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+        return duration
+    }
+}
+
 extension Manager {
 
     // MARK: setup tasks before running
 
     private func setup(context: UIViewControllerContextTransitioning) {
-        let fromVC: UIViewController = context.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-        let toVC: UIViewController = context.viewControllerForKey(UITransitionContextToViewControllerKey)!
+        let fromViewController = context.viewControllerForKey(UITransitionContextFromViewControllerKey)
+        let toViewController = context.viewControllerForKey(UITransitionContextToViewControllerKey)
 
-        _setupTasks(fromVC: fromVC, toVC: toVC)
+        if let fromViewController = fromViewController, let toViewController = toViewController {
+            _setupTasks(fromViewController: fromViewController, toViewController: toViewController)
+        }
     }
 
-    private func _setupTasks(#fromVC: UIViewController, toVC: UIViewController) {
+    private func findDelegateIn(viewController: UIViewController) -> Delegate? {
+
+        switch viewController {
+        case let navigationController as UINavigationController:
+            if let delegate = navigationController.topViewController as? Delegate {
+                return delegate
+            }
+            break
+        case let delegate as Delegate:
+            return delegate
+        default:
+            break
+        }
+
+        return nil
+    }
+
+    private func _setupTasks(#fromViewController: UIViewController, toViewController: UIViewController) {
         // before
-        if let delegate = fromVC as? Delegate, let _tasks = delegate.tasksBeforeTransitionTo?(toVC) {
+        if let delegate = findDelegateIn(fromViewController), let _tasks = delegate.tasksBeforeTransitionTo?(toViewController) {
             before.tasks = _tasks
         }
 
         // present
         var tasks: [Task] = [Task]()
-        if let delegate = fromVC as? Delegate, let _tasks = delegate.tasksDuringTransitionFrom?(fromVC) {
+        if let delegate = findDelegateIn(fromViewController), let _tasks = delegate.tasksDuringTransitionFrom?(fromViewController) {
             tasks += _tasks
         }
-        if let delegate = toVC as? Delegate, let _tasks = delegate.tasksDuringTransitionFrom?(fromVC) {
+        if let delegate = findDelegateIn(toViewController), let _tasks = delegate.tasksDuringTransitionFrom?(fromViewController) {
             tasks += _tasks
         }
 
@@ -217,28 +247,25 @@ extension Manager {
     }
 
     private func _startPresent(context: UIViewControllerContextTransitioning) {
-        let frame = context.finalFrameForViewController(context.viewControllerForKey(UITransitionContextToViewControllerKey)!)
-        let fromView = context.viewForKey(UITransitionContextFromViewKey)!
-        let toView = context.viewForKey(UITransitionContextToViewKey)!
-        toView.frame = frame
-        context.containerView().insertSubview(toView, aboveSubview: fromView)
+        let fromViewController = context.viewControllerForKey(UITransitionContextFromViewControllerKey)
+        let toViewController = context.viewControllerForKey(UITransitionContextToViewControllerKey)
+
+        if let toView = toViewController?.view, let fromView = fromViewController?.view {
+            context.containerView().insertSubview(toView, aboveSubview: fromView)
+        }
 
         present.completion = {
-            fromView.removeFromSuperview()
+
+            switch context.presentationStyle() {
+            case .None:
+                fromViewController?.view.removeFromSuperview()
+            default:
+                break
+            }
+
             context.completeTransition(true)
         }
         present.start()
-    }
-}
-
-extension Manager: UIViewControllerAnimatedTransitioning {
-
-    func animateTransition(context: UIViewControllerContextTransitioning) {
-        start(context)
-    }
-
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
-        return duration
     }
 }
 

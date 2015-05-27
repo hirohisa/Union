@@ -49,6 +49,8 @@ class ViewController: UICollectionViewController {
         layout.itemSize = CGSize(width: CGRectGetWidth(collectionView!.frame), height: 200)
         collectionView?.collectionViewLayout = layout
         collectionView?.registerClass(CollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "overlay", style: .Plain, target: self, action: "showPresentation")
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -57,6 +59,15 @@ class ViewController: UICollectionViewController {
         navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
     }
 
+    func showPresentation() {
+
+        let viewController = ProfileViewController()
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .Custom
+        navigationController.transitioningDelegate = self
+
+        presentViewController(navigationController, animated: true, completion: nil)
+    }
 }
 
 extension ViewController: UICollectionViewDelegate {
@@ -77,13 +88,11 @@ extension ViewController: UICollectionViewDelegate {
 
 extension ViewController: UICollectionViewDataSource {
 
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
-    {
+    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }
 
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
-    {
+    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! CollectionViewCell
 
         cell.imageView.image = UIImage(named: "orange")
@@ -102,4 +111,23 @@ extension ViewController: UINavigationControllerDelegate {
 
         return nil
     }
+}
+
+extension ViewController: UIViewControllerTransitioningDelegate {
+
+    func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController!, sourceViewController source: UIViewController) -> UIPresentationController? {
+
+        return PresentationController(presentedViewController: presented, presentingViewController: presentingViewController)
+    }
+
+    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+
+        return Union.animate()
+    }
+
+    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+
+        return nil
+    }
+
 }
