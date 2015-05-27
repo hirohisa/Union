@@ -7,7 +7,7 @@ Create animation tasks for each layer's animation and deliver tasks on Union.Del
 Requirements
 ----------
 
-- iOS 7.0+
+- iOS 8.0+
 - Xcode 6.3 Swift 1.2
 
 Installation
@@ -42,9 +42,9 @@ Features
 - [x] Support CABasicAnimation.
 - [x] Support CAKeyframeAnimation.
 - [ ] Support UIView.animateWithDuration Block.
-- [ ] Linked to other tasks
-- [ ] Control animation with Segue
-- [x] Support UIPresentationController
+- [ ] Linked to other tasks.
+- [ ] Control animation with Segue.
+- [x] Support UIViewControllerTransitioningDelegate.
 
 Usage
 ----------
@@ -104,16 +104,16 @@ Union.Delegate protocol:
 
 ```swift
 public protocol Delegate {
-    optional func tasksBeforeTransition(operation: UINavigationControllerOperation) -> [Task]
-    optional func tasksDuringTransition(operation: UINavigationControllerOperation) -> [Task]
+    optional func tasksBeforeTransitionTo(viewController: UIViewController) -> [Task]
+    optional func tasksDuringTransitionFrom(viewController: UIViewController) -> [Task]
 }
 ```
 
-- `func tasksBeforeTransition(operation: UINavigationControllerOperation) -> [Task]`
+- `tasksBeforeTransitionTo(viewController: UIViewController) -> [Task]`
 
   Transition begin after these tasks are completed and this method is called by `UIViewController` displayed only.
 
-- `func tasksDuringTransition(operation: UINavigationControllerOperation) -> [Task]`
+- `tasksDuringTransitionFrom(viewController: UIViewController) -> [Task]`
 
   Tasks called by two `UIViewController`s start during transition. `context.completeTransition(true)` is called after all tasks are completed.
 
@@ -125,7 +125,19 @@ extension ViewController: UINavigationControllerDelegate {
          animationControllerForOperation operation: UINavigationControllerOperation,
                          fromViewController fromVC: UIViewController,
                              toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return Union.animate(operation)
+        return Union.animate()
+    }
+}
+```
+
+#### Animation start on UIViewControllerTransitioningDelegate
+
+```
+extension ViewController: UIViewControllerTransitioningDelegate {
+
+    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+
+        return Union.animate()
     }
 }
 ```
