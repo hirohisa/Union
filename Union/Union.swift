@@ -201,35 +201,33 @@ extension Manager {
         }
     }
 
-    private func findDelegateIn(viewController: UIViewController) -> Delegate? {
+    private func findViewControllerIn(viewController: UIViewController) -> UIViewController {
 
         switch viewController {
         case let navigationController as UINavigationController:
-            if let delegate = navigationController.topViewController as? Delegate {
-                return delegate
-            }
-            break
-        case let delegate as Delegate:
-            return delegate
+            return navigationController.topViewController
         default:
             break
         }
 
-        return nil
+        return viewController
     }
 
     private func _setupTasks(#fromViewController: UIViewController, toViewController: UIViewController) {
         // before
-        if let delegate = findDelegateIn(fromViewController), let _tasks = delegate.tasksBeforeTransitionTo?(toViewController) {
+        let fromViewController = findViewControllerIn(fromViewController)
+        let toViewController = findViewControllerIn(toViewController)
+
+        if let delegate = fromViewController as? Delegate, let _tasks = delegate.tasksBeforeTransitionTo?(toViewController) {
             before.tasks = _tasks
         }
 
         // present
         var tasks: [Task] = [Task]()
-        if let delegate = findDelegateIn(fromViewController), let _tasks = delegate.tasksDuringTransitionFrom?(fromViewController) {
+        if let delegate = fromViewController as? Delegate, let _tasks = delegate.tasksDuringTransitionFrom?(fromViewController) {
             tasks += _tasks
         }
-        if let delegate = findDelegateIn(toViewController), let _tasks = delegate.tasksDuringTransitionFrom?(fromViewController) {
+        if let delegate = toViewController as? Delegate, let _tasks = delegate.tasksDuringTransitionFrom?(fromViewController) {
             tasks += _tasks
         }
 
@@ -251,7 +249,17 @@ extension Manager {
         let toViewController = context.viewControllerForKey(UITransitionContextToViewControllerKey)
 
         if let toView = toViewController?.view, let fromView = fromViewController?.view {
-            context.containerView().insertSubview(toView, aboveSubview: fromView)
+
+            switch context.presentationStyle() {
+            case .None:
+                context.containerView().insertSubview(toView, aboveSubview: fromView)
+            default:
+                // context.containerView() is UIPresentationController.view
+                if !fromView.isDescendantOfView(context.containerView()) {
+                    context.containerView().insertSubview(toView, aboveSubview: fromView)
+                }
+                break
+            }
         }
 
         present.completion = {
