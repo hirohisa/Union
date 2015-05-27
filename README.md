@@ -23,12 +23,7 @@ git submodule add https://github.com/hirohisa/Union.git
 - Install with CocoaPods to write Podfile
 
 ```ruby
-
-# Xcode6.2, Swift 1.1
-pod 'Union', '0.0.2'
-
-# Xcode6.3+, Swift 1.2+
-pod 'Union', '~> 0.1.0'
+pod 'Union'
 ```
 
 Sample
@@ -49,7 +44,7 @@ Features
 - [ ] Support UIView.animateWithDuration Block.
 - [ ] Linked to other tasks
 - [ ] Control animation with Segue
-
+- [x] Support UIPresentationController
 
 Usage
 ----------
