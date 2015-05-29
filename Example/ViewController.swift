@@ -127,7 +127,7 @@ extension ViewController: UIViewControllerTransitioningDelegate {
 
     func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
-        return nil
+        return Union.animate()
     }
 
 }
