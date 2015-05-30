@@ -23,21 +23,22 @@ class Manager: NSObject {
     let before = Animator()
     let present = Animator()
 
-    override init()  {
-    }
+    func animate(context: UIViewControllerContextTransitioning) {
 
-    func start(context: UIViewControllerContextTransitioning) {
-        if duration == 0.0 {
-            setup(context)
+        setup(context)
+
+        before.completion = {
+            self.startTransition(context)
         }
-        _startBefore(context)
+
+        before.start()
     }
 }
 
 extension Manager: UIViewControllerAnimatedTransitioning {
 
     func animateTransition(context: UIViewControllerContextTransitioning) {
-        start(context)
+        animate(context)
     }
 
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
@@ -45,32 +46,20 @@ extension Manager: UIViewControllerAnimatedTransitioning {
     }
 }
 
-extension Manager {
+private extension Manager {
 
     // MARK: setup tasks before running
 
-    private func setup(context: UIViewControllerContextTransitioning) {
+    func setup(context: UIViewControllerContextTransitioning) {
         let fromViewController = context.viewControllerForKey(UITransitionContextFromViewControllerKey)
         let toViewController = context.viewControllerForKey(UITransitionContextToViewControllerKey)
 
         if let fromViewController = fromViewController, let toViewController = toViewController {
-            _setupTasks(fromViewController: fromViewController, toViewController: toViewController)
+            setupTasks(fromViewController: fromViewController, toViewController: toViewController)
         }
     }
 
-    private func findViewControllerIn(viewController: UIViewController) -> UIViewController {
-
-        switch viewController {
-        case let navigationController as UINavigationController:
-            return navigationController.topViewController
-        default:
-            break
-        }
-
-        return viewController
-    }
-
-    private func _setupTasks(#fromViewController: UIViewController, toViewController: UIViewController) {
+    func setupTasks(#fromViewController: UIViewController, toViewController: UIViewController) {
         // before
         let fromViewController = findViewControllerIn(fromViewController)
         let toViewController = findViewControllerIn(toViewController)
@@ -93,15 +82,7 @@ extension Manager {
 
     // MARK: run with animation tasks
 
-    private func _startBefore(context: UIViewControllerContextTransitioning) {
-        before.completion = {
-            self._startPresent(context)
-        }
-
-        before.start()
-    }
-
-    private func _startPresent(context: UIViewControllerContextTransitioning) {
+    func startTransition(context: UIViewControllerContextTransitioning) {
         let fromViewController = context.viewControllerForKey(UITransitionContextFromViewControllerKey)
         let toViewController = context.viewControllerForKey(UITransitionContextToViewControllerKey)
 
@@ -131,6 +112,18 @@ extension Manager {
             context.completeTransition(true)
         }
         present.start()
+    }
+
+    func findViewControllerIn(viewController: UIViewController) -> UIViewController {
+
+        switch viewController {
+        case let navigationController as UINavigationController:
+            return navigationController.topViewController
+        default:
+            break
+        }
+
+        return viewController
     }
 }
 
