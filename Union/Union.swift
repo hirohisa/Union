@@ -23,7 +23,7 @@ class Manager: NSObject {
     let before = Animator()
     let present = Animator()
 
-    func animate(context: UIViewControllerContextTransitioning) {
+    func startAnimation(context: UIViewControllerContextTransitioning) {
 
         setup(context)
 
@@ -38,7 +38,7 @@ class Manager: NSObject {
 extension Manager: UIViewControllerAnimatedTransitioning {
 
     func animateTransition(context: UIViewControllerContextTransitioning) {
-        animate(context)
+        startAnimation(context)
     }
 
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
