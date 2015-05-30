@@ -11,6 +11,8 @@
 		6557473A1A8C8AA100D3595C /* Union.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6557472E1A8C8AA100D3595C /* Union.framework */; };
 		655747411A8C8AA100D3595C /* UnionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655747401A8C8AA100D3595C /* UnionTests.swift */; };
 		65D3950D1A8DA8EE00DA346C /* Union.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D3950C1A8DA8EE00DA346C /* Union.swift */; };
+		A12FA8441B1A1543001DFB7E /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12FA8431B1A1543001DFB7E /* Task.swift */; };
+		A12FA8461B1A1778001DFB7E /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12FA8451B1A1778001DFB7E /* Animator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +33,8 @@
 		6557473F1A8C8AA100D3595C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		655747401A8C8AA100D3595C /* UnionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnionTests.swift; sourceTree = "<group>"; };
 		65D3950C1A8DA8EE00DA346C /* Union.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Union.swift; sourceTree = "<group>"; };
+		A12FA8431B1A1543001DFB7E /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		A12FA8451B1A1778001DFB7E /* Animator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +79,8 @@
 			children = (
 				655747331A8C8AA100D3595C /* Union.h */,
 				65D3950C1A8DA8EE00DA346C /* Union.swift */,
+				A12FA8431B1A1543001DFB7E /* Task.swift */,
+				A12FA8451B1A1778001DFB7E /* Animator.swift */,
 				655747311A8C8AA100D3595C /* Supporting Files */,
 			);
 			path = Union;
@@ -212,6 +218,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A12FA8461B1A1778001DFB7E /* Animator.swift in Sources */,
+				A12FA8441B1A1543001DFB7E /* Task.swift in Sources */,
 				65D3950D1A8DA8EE00DA346C /* Union.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
