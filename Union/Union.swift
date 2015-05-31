@@ -69,7 +69,7 @@ private extension Manager {
         }
 
         // present
-        var tasks: [Task] = [Task]()
+        var tasks = [Task]()
         if let delegate = fromViewController as? Delegate, let _tasks = delegate.tasksDuringTransitionFrom?(fromViewController) {
             tasks += _tasks
         }

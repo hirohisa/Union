@@ -11,8 +11,6 @@ import Foundation
 class Animator {
 
     var duration: NSTimeInterval {
-
-        // find most time at finishing task
         var duration: NSTimeInterval = 0
         for task in tasks {
             var _duration: NSTimeInterval = {
