@@ -39,6 +39,7 @@ public class Task {
 
     var layer: CALayer?
     var animation: CAPropertyAnimation?
+    public var dependency = [Task]() // TODO: Rename, and to weak reference?
 
     // public property
     public var delay: NSTimeInterval = 0 // animation start after delay time
@@ -76,6 +77,10 @@ public class Task {
             layer.setValue(animation.valueAfterAnimation, forKeyPath: animation.keyPath)
         } else {
             finish()
+        }
+
+        for task in dependency {
+            task.start()
         }
     }
 
