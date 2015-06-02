@@ -115,7 +115,14 @@ class ArticleViewController: UIViewController {
 extension ArticleViewController: Union.Delegate {
 
     func tasksDuringTransitionFrom(viewController: UIViewController) -> [Task] {
-        return [revealAnimationTask(), switchLayerTask(), slideImageViewAnimationTask(), slideTextViewAnimationTask(), scaleIconVIewAnimationTask()]
+
+        let task = switchLayerTask()
+        let slideImageTask = slideImageViewAnimationTask()
+        let slideTextTask = slideTextViewAnimationTask()
+
+        task.dependencies = [slideImageTask, slideTextTask]
+
+        return [revealAnimationTask(), task, scaleIconVIewAnimationTask()]
     }
 
     func revealAnimationTask() -> Task {
@@ -152,7 +159,7 @@ extension ArticleViewController: Union.Delegate {
         animation.duration = 0.3
 
         let task = Task(layer:imageView.layer, animation:animation)
-        task.delay = 0.3
+        //task.delay = 0.3
 
         return task
     }
@@ -168,7 +175,7 @@ extension ArticleViewController: Union.Delegate {
         animation.duration = 0.3
 
         let task = Task(layer:textView.layer, animation:animation)
-        task.delay = 0.3
+        //task.delay = 0.3
         return task
     }
 
