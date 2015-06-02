@@ -13,16 +13,8 @@ class Animator {
     var duration: NSTimeInterval {
         var duration: NSTimeInterval = 0
         for task in tasks {
-            var _duration: NSTimeInterval = {
-                if let animation = task.animation {
-                    return task.delay + animation.duration
-                }
-
-                return task.delay
-                }()
-
-            if duration < _duration {
-                duration = _duration
+            if duration < task.duration {
+                duration = task.duration
             }
         }
 
