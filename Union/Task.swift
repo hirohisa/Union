@@ -48,7 +48,7 @@ public class Task {
     weak var delegate: Animator?
     var finished = false
 
-    var duration: NSTimeInterval {
+    public var duration: NSTimeInterval {
         var duration: NSTimeInterval = {
             if let animation = self.animation {
                 return self.delay + animation.duration
@@ -58,7 +58,7 @@ public class Task {
             }()
 
         for task in dependencies {
-            let _duration = self.delay + task.duration
+            let _duration: NSTimeInterval = self.delay + task.duration
             if duration < _duration {
                 duration = _duration
             }
