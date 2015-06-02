@@ -48,6 +48,25 @@ public class Task {
     weak var delegate: Animator?
     var finished = false
 
+    var duration: NSTimeInterval {
+        var duration: NSTimeInterval = {
+            if let animation = self.animation {
+                return self.delay + animation.duration
+            }
+
+            return self.delay
+            }()
+
+        for task in dependencies {
+            let _duration = self.delay + task.duration
+            if duration < _duration {
+                duration = _duration
+            }
+        }
+
+        return duration
+    }
+
     public init(layer: CALayer, animation: CAPropertyAnimation) {
         self.layer = layer
         self.animation = animation
