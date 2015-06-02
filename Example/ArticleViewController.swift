@@ -120,7 +120,7 @@ extension ArticleViewController: Union.Delegate {
         let slideImageTask = slideImageViewAnimationTask()
         let slideTextTask = slideTextViewAnimationTask()
 
-        task.dependency = [slideImageTask, slideTextTask]
+        task.dependencies = [slideImageTask, slideTextTask]
 
         return [revealAnimationTask(), task, scaleIconVIewAnimationTask()]
     }
