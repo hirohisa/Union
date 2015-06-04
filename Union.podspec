@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "Union"
-  s.version      = "0.2.1"
+  s.version      = "0.2.2"
   s.summary      = "Context transitioning's animation manager for iOS written in Swift."
   s.description  = <<-DESC
   Context transitioning's animation manager for iOS written in Swift.
