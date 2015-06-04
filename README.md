@@ -17,7 +17,7 @@ It is the way to use this in your project:
 
 - Add Union as a submodule by opening the Terminal, trying to enter the command
 ```
-git submodule add https://github.com/hirohisa/Union.git
+git submodule add https://github.com/TransitionKit/Union.git
 ```
 
 - Install with CocoaPods to write Podfile
@@ -34,7 +34,7 @@ I create sample animation with Union, it is like "[User-Profile-Interface-Animat
 see [project](Example).
 
 
-![ ](https://raw.github.com/hirohisa/Union/master/Gif/sample.gif)
+![ ](https://raw.github.com/TransitionKit/Union/master/Gif/sample.gif)
 
 Features
 ----------
