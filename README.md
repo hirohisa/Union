@@ -42,7 +42,7 @@ Features
 - [x] Support CABasicAnimation.
 - [x] Support CAKeyframeAnimation.
 - [ ] Support UIView.animateWithDuration Block.
-- [ ] Linked to other tasks.
+- [x] Link to other tasks, use property `dependencies`.
 - [ ] Control animation with Segue.
 - [x] Support UIViewControllerTransitioningDelegate.
 
