@@ -45,6 +45,8 @@ Features
 - [x] Link to other tasks, use property `dependencies`.
 - [ ] Control animation with Segue.
 - [x] Support UIViewControllerTransitioningDelegate.
+- [ ] Support UITabBarControllerDelegate.
+- [ ] Support UIViewControllerInteractiveTransitioning or UIPercentDrivenInteractiveTransition.
 
 Usage
 ----------
