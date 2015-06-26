@@ -45,7 +45,6 @@ Features
 - [x] Link to other tasks, use property `dependencies`.
 - [x] Support UIViewControllerTransitioningDelegate.
 - [ ] Support UITabBarControllerDelegate.
-- [ ] Support UIViewControllerInteractiveTransitioning or UIPercentDrivenInteractiveTransition.
 
 Usage
 ----------
