@@ -14,7 +14,7 @@ class CollectionViewCell: UICollectionViewCell {
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .ScaleAspectFill
-        imageView.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        imageView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -115,7 +115,7 @@ extension ViewController: UINavigationControllerDelegate {
 
 extension ViewController: UIViewControllerTransitioningDelegate {
 
-    func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController!, sourceViewController source: UIViewController) -> UIPresentationController? {
+    func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController, sourceViewController source: UIViewController) -> UIPresentationController? {
 
         return PresentationController(presentedViewController: presented, presentingViewController: presentingViewController)
     }
