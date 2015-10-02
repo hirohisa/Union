@@ -8,10 +8,19 @@
 
 import UIKit
 
-@objc
 public protocol Delegate {
-    optional func tasksBeforeTransitionTo(viewController: UIViewController) -> [Task]
-    optional func tasksDuringTransitionFrom(viewController: UIViewController) -> [Task]
+    func tasksBeforeTransitionTo(viewController: UIViewController) -> [Task]
+    func tasksDuringTransitionFrom(viewController: UIViewController) -> [Task]
+}
+
+extension Delegate {
+
+    func tasksBeforeTransitionTo(viewController: UIViewController) -> [Task] {
+        return []
+    }
+    func tasksDuringTransitionFrom(viewController: UIViewController) -> [Task] {
+        return []
+    }
 }
 
 class Manager: NSObject {
@@ -41,7 +50,7 @@ extension Manager: UIViewControllerAnimatedTransitioning {
         startAnimation(context)
     }
 
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         return duration
     }
 }
@@ -59,22 +68,22 @@ private extension Manager {
         }
     }
 
-    func setupTasks(#fromViewController: UIViewController, toViewController: UIViewController) {
+    func setupTasks(fromViewController fromViewController: UIViewController, toViewController: UIViewController) {
         // before
         let fromViewController = findViewControllerIn(fromViewController)
         let toViewController = findViewControllerIn(toViewController)
 
-        if let delegate = fromViewController as? Delegate, let _tasks = delegate.tasksBeforeTransitionTo?(toViewController) {
-            before.tasks = _tasks
+        if let delegate = fromViewController as? Delegate {
+            before.tasks = delegate.tasksBeforeTransitionTo(toViewController)
         }
 
         // present
         var tasks = [Task]()
-        if let delegate = fromViewController as? Delegate, let _tasks = delegate.tasksDuringTransitionFrom?(fromViewController) {
-            tasks += _tasks
+        if let delegate = fromViewController as? Delegate {
+            tasks += delegate.tasksDuringTransitionFrom(fromViewController)
         }
-        if let delegate = toViewController as? Delegate, let _tasks = delegate.tasksDuringTransitionFrom?(fromViewController) {
-            tasks += _tasks
+        if let delegate = toViewController as? Delegate {
+            tasks += delegate.tasksDuringTransitionFrom(fromViewController)
         }
 
         present.tasks = tasks
@@ -90,18 +99,17 @@ private extension Manager {
 
             switch context.presentationStyle() {
             case .None:
-                context.containerView().insertSubview(toView, aboveSubview: fromView)
+                context.containerView()!.insertSubview(toView, aboveSubview: fromView)
             default:
                 // context.containerView() is UIPresentationController.view
-                if !fromView.isDescendantOfView(context.containerView()) {
-                    context.containerView().insertSubview(toView, aboveSubview: fromView)
+                if !fromView.isDescendantOfView(context.containerView()!) {
+                    context.containerView()!.insertSubview(toView, aboveSubview: fromView)
                 }
                 break
             }
         }
 
         present.completion = {
-
             switch context.presentationStyle() {
             case .None:
                 fromViewController?.view.removeFromSuperview()
@@ -118,7 +126,7 @@ private extension Manager {
 
         switch viewController {
         case let navigationController as UINavigationController:
-            return navigationController.topViewController
+            return navigationController.topViewController!
         default:
             break
         }

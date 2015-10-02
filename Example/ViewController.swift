@@ -14,7 +14,7 @@ class CollectionViewCell: UICollectionViewCell {
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .ScaleAspectFill
-        imageView.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        imageView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -68,15 +68,10 @@ class ViewController: UICollectionViewController {
 
         presentViewController(navigationController, animated: true, completion: nil)
     }
-}
-
-extension ViewController: UICollectionViewDelegate {
 
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? CollectionViewCell {
             let center = collectionView.convertPoint(cell.center, toView: view)
-
-            let image = cell.imageView.image
 
             let viewController = ArticleViewController(imageView: cell.imageView, center: center)
 
@@ -84,9 +79,6 @@ extension ViewController: UICollectionViewDelegate {
             navigationController?.pushViewController(viewController, animated: true)
         }
     }
-}
-
-extension ViewController: UICollectionViewDataSource {
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
@@ -115,9 +107,9 @@ extension ViewController: UINavigationControllerDelegate {
 
 extension ViewController: UIViewControllerTransitioningDelegate {
 
-    func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController!, sourceViewController source: UIViewController) -> UIPresentationController? {
+    func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController, sourceViewController source: UIViewController) -> UIPresentationController? {
 
-        return PresentationController(presentedViewController: presented, presentingViewController: presentingViewController)
+        return PresentationController(presentedViewController: presented, presentingViewController: presenting)
     }
 
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		655747341A8C8AA100D3595C /* Union.h in Headers */ = {isa = PBXBuildFile; fileRef = 655747331A8C8AA100D3595C /* Union.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6557473A1A8C8AA100D3595C /* Union.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6557472E1A8C8AA100D3595C /* Union.framework */; };
-		655747411A8C8AA100D3595C /* UnionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655747401A8C8AA100D3595C /* UnionTests.swift */; };
 		65D3950D1A8DA8EE00DA346C /* Union.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D3950C1A8DA8EE00DA346C /* Union.swift */; };
 		A12FA8441B1A1543001DFB7E /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12FA8431B1A1543001DFB7E /* Task.swift */; };
 		A12FA8461B1A1778001DFB7E /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12FA8451B1A1778001DFB7E /* Animator.swift */; };
@@ -32,7 +31,6 @@
 		655747331A8C8AA100D3595C /* Union.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Union.h; sourceTree = "<group>"; };
 		655747391A8C8AA100D3595C /* UnionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6557473F1A8C8AA100D3595C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		655747401A8C8AA100D3595C /* UnionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnionTests.swift; sourceTree = "<group>"; };
 		65D3950C1A8DA8EE00DA346C /* Union.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Union.swift; sourceTree = "<group>"; };
 		A12FA8431B1A1543001DFB7E /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		A12FA8451B1A1778001DFB7E /* Animator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
@@ -99,7 +97,6 @@
 		6557473D1A8C8AA100D3595C /* UnionTests */ = {
 			isa = PBXGroup;
 			children = (
-				655747401A8C8AA100D3595C /* UnionTests.swift */,
 				A1F6700C1B1E1F6700461EF0 /* TaskTests.swift */,
 				6557473E1A8C8AA100D3595C /* Supporting Files */,
 			);
@@ -170,7 +167,9 @@
 		655747251A8C8AA100D3595C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Hirohisa Kawasaki";
 				TargetAttributes = {
 					6557472D1A8C8AA100D3595C = {
@@ -232,7 +231,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1F6700D1B1E1F6700461EF0 /* TaskTests.swift in Sources */,
-				655747411A8C8AA100D3595C /* UnionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,6 +266,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -343,6 +342,7 @@
 				INFOPLIST_FILE = Union/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.hirohisa.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -360,6 +360,7 @@
 				INFOPLIST_FILE = Union/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.hirohisa.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -378,6 +379,7 @@
 				);
 				INFOPLIST_FILE = UnionTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.hirohisa.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -391,6 +393,7 @@
 				);
 				INFOPLIST_FILE = UnionTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.hirohisa.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

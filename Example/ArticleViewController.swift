@@ -56,7 +56,7 @@ class ArticleViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -114,6 +114,10 @@ class ArticleViewController: UIViewController {
 
 extension ArticleViewController: Union.Delegate {
 
+    func tasksBeforeTransitionTo(viewController: UIViewController) -> [Task] {
+        return []
+    }
+
     func tasksDuringTransitionFrom(viewController: UIViewController) -> [Task] {
 
         let task = switchLayerTask()
@@ -150,7 +154,6 @@ extension ArticleViewController: Union.Delegate {
     }
 
     func slideImageViewAnimationTask() -> Task {
-        let length = CGRectGetWidth(view.frame)
         let point = CGPoint(x: imageView.layer.position.x, y: 100)
 
         let animation = CABasicAnimation(keyPath: "position")
@@ -165,8 +168,6 @@ extension ArticleViewController: Union.Delegate {
     }
 
     func slideTextViewAnimationTask() -> Task {
-        let length = CGRectGetWidth(view.frame)
-
         let position = CGPoint(x: textView.layer.position.x, y: CGRectGetHeight(imageView.frame) + CGRectGetHeight(textView.frame)/2)
 
         let animation = CABasicAnimation(keyPath: "position")

@@ -12,24 +12,27 @@ import Foundation
 
 protocol CAPropertyAnimationPotocol {
     var valueAfterAnimation: AnyObject { get }
-    var keyPath: String! { get set }
+    var keyPathOfAnimation: String { get }
 }
 
 extension CAPropertyAnimation: CAPropertyAnimationPotocol {
     var valueAfterAnimation: AnyObject {
         return 0
     }
-}
-
-extension CABasicAnimation: CAPropertyAnimationPotocol {
-    override var valueAfterAnimation: AnyObject {
-        return toValue
+    var keyPathOfAnimation: String {
+        return keyPath!
     }
 }
 
-extension CAKeyframeAnimation: CAPropertyAnimationPotocol {
+extension CABasicAnimation {
     override var valueAfterAnimation: AnyObject {
-        return values.last!
+        return toValue!
+    }
+}
+
+extension CAKeyframeAnimation {
+    override var valueAfterAnimation: AnyObject {
+        return values!.last!
     }
 }
 
@@ -92,8 +95,8 @@ public class Task {
 
     private func _start() {
         if let layer = layer, let animation = animation {
-            layer.addAnimation(animation, forKey: animation.keyPath.hash.description)
-            layer.setValue(animation.valueAfterAnimation, forKeyPath: animation.keyPath)
+            layer.addAnimation(animation, forKey: animation.keyPath!.hash.description)
+            layer.setValue(animation.valueAfterAnimation, forKeyPath: animation.keyPath!)
         } else {
             finish()
         }

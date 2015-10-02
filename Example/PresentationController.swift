@@ -17,16 +17,16 @@ class PresentationController: UIPresentationController {
         return view
     }()
 
-    override init(presentedViewController: UIViewController!, presentingViewController: UIViewController!) {
+    override init(presentedViewController: UIViewController, presentingViewController: UIViewController) {
         super.init(presentedViewController: presentedViewController, presentingViewController: presentingViewController)
         overlay.gestureRecognizers = [UITapGestureRecognizer(target: self, action: "overlayDidTouch:")]
     }
 
     override func presentationTransitionWillBegin() {
 
-        overlay.frame = containerView.bounds
+        overlay.frame = containerView!.bounds
         overlay.alpha = 0.0
-        containerView.insertSubview(overlay, atIndex: 0)
+        containerView!.insertSubview(overlay, atIndex: 0)
 
         presentedViewController.transitionCoordinator()?.animateAlongsideTransition({ _ in
             self.overlay.alpha = 0.5
@@ -51,14 +51,14 @@ class PresentationController: UIPresentationController {
 
     override func frameOfPresentedViewInContainerView() -> CGRect {
         let origin = CGPoint(x: 0, y: 0)
-        let size = sizeForChildContentContainer(presentedViewController, withParentContainerSize: containerView.bounds.size)
+        let size = sizeForChildContentContainer(presentedViewController, withParentContainerSize: containerView!.bounds.size)
 
         return CGRect(origin: origin, size: size)
     }
 
     override func containerViewWillLayoutSubviews() {
-        overlay.frame = containerView.bounds
-        self.presentedView().frame = frameOfPresentedViewInContainerView()
+        overlay.frame = containerView!.bounds
+        presentedView()?.frame = frameOfPresentedViewInContainerView()
     }
 
     override func containerViewDidLayoutSubviews() {
