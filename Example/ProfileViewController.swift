@@ -30,4 +30,8 @@ extension ProfileViewController: Union.Delegate {
     func tasksDuringTransitionFrom(viewController: UIViewController) -> [Task] {
         return []
     }
+
+    func tasksBeforeTransitionTo(viewController: UIViewController) -> [Task] {
+        return []
+    }
 }
