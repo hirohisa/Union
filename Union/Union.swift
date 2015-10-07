@@ -9,16 +9,16 @@
 import UIKit
 
 public protocol Delegate {
-    func tasksBeforeTransitionTo(viewController: UIViewController) -> [Task]
-    func tasksDuringTransitionFrom(viewController: UIViewController) -> [Task]
+    func animationsBeforeTransitionTo(viewController: UIViewController) -> [Animation]
+    func animationsDuringTransitionFrom(viewController: UIViewController) -> [Animation]
 }
 
 extension Delegate {
 
-    func tasksBeforeTransitionTo(viewController: UIViewController) -> [Task] {
+    func animationsBeforeTransitionTo(viewController: UIViewController) -> [Animation] {
         return []
     }
-    func tasksDuringTransitionFrom(viewController: UIViewController) -> [Task] {
+    func animationsDuringTransitionFrom(viewController: UIViewController) -> [Animation] {
         return []
     }
 }
@@ -29,8 +29,8 @@ class Manager: NSObject {
         return before.duration + present.duration
     }
 
-    let before = Animator()
-    let present = Animator()
+    let before = AnimationManager()
+    let present = AnimationManager()
 
     func startAnimation(context: UIViewControllerContextTransitioning) {
 
@@ -57,39 +57,39 @@ extension Manager: UIViewControllerAnimatedTransitioning {
 
 private extension Manager {
 
-    // MARK: setup tasks before running
+    // MARK: setup animations before running
 
     func setup(context: UIViewControllerContextTransitioning) {
         let fromViewController = context.viewControllerForKey(UITransitionContextFromViewControllerKey)
         let toViewController = context.viewControllerForKey(UITransitionContextToViewControllerKey)
 
         if let fromViewController = fromViewController, let toViewController = toViewController {
-            setupTasks(fromViewController: fromViewController, toViewController: toViewController)
+            setupAnimations(fromViewController: fromViewController, toViewController: toViewController)
         }
     }
 
-    func setupTasks(fromViewController fromViewController: UIViewController, toViewController: UIViewController) {
+    func setupAnimations(fromViewController fromViewController: UIViewController, toViewController: UIViewController) {
         // before
         let fromViewController = findViewControllerIn(fromViewController)
         let toViewController = findViewControllerIn(toViewController)
 
         if let delegate = fromViewController as? Delegate {
-            before.tasks = delegate.tasksBeforeTransitionTo(toViewController)
+            before.animations = delegate.animationsBeforeTransitionTo(toViewController)
         }
 
         // present
-        var tasks = [Task]()
+        var animations = [Animation]()
         if let delegate = fromViewController as? Delegate {
-            tasks += delegate.tasksDuringTransitionFrom(fromViewController)
+            animations += delegate.animationsDuringTransitionFrom(fromViewController)
         }
         if let delegate = toViewController as? Delegate {
-            tasks += delegate.tasksDuringTransitionFrom(fromViewController)
+            animations += delegate.animationsDuringTransitionFrom(fromViewController)
         }
 
-        present.tasks = tasks
+        present.animations = animations
     }
 
-    // MARK: run with animation tasks
+    // MARK: run with animation animations
 
     func startTransition(context: UIViewControllerContextTransitioning) {
         let fromViewController = context.viewControllerForKey(UITransitionContextFromViewControllerKey)

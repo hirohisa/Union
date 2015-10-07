@@ -27,11 +27,11 @@ class ProfileViewController: UIViewController {
 
 extension ProfileViewController: Union.Delegate {
 
-    func tasksDuringTransitionFrom(viewController: UIViewController) -> [Task] {
+    func animationsDuringTransitionFrom(viewController: UIViewController) -> [Animation] {
         return []
     }
 
-    func tasksBeforeTransitionTo(viewController: UIViewController) -> [Task] {
+    func animationsBeforeTransitionTo(viewController: UIViewController) -> [Animation] {
         return []
     }
 }
