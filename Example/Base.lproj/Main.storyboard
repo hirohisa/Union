@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -13,20 +14,46 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fDZ-IG-SS9">
-                            <size key="itemSize" width="50" height="50"/>
+                            <size key="itemSize" width="600" height="200"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="AwG-aC-9re">
-                                <rect key="frame" x="0.0" y="64" width="50" height="50"/>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionViewCell" id="AwG-aC-9re" customClass="CollectionViewCell" customModule="Example" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="64" width="600" height="200"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Uql-NV-XYM">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+                                        </imageView>
+                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <constraints>
+                                    <constraint firstItem="Uql-NV-XYM" firstAttribute="leading" secondItem="AwG-aC-9re" secondAttribute="leadingMargin" id="6dV-tF-oQV"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="Uql-NV-XYM" secondAttribute="trailing" id="BJA-29-1qf"/>
+                                    <constraint firstItem="Uql-NV-XYM" firstAttribute="top" secondItem="AwG-aC-9re" secondAttribute="topMargin" id="GWe-lC-C5s"/>
+                                    <constraint firstItem="Uql-NV-XYM" firstAttribute="top" secondItem="AwG-aC-9re" secondAttribute="top" id="HFT-Et-anw"/>
+                                    <constraint firstItem="Uql-NV-XYM" firstAttribute="leading" secondItem="AwG-aC-9re" secondAttribute="leading" id="JgK-w0-fkF"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="Uql-NV-XYM" secondAttribute="bottom" id="NoI-fv-bEo"/>
+                                    <constraint firstAttribute="bottom" secondItem="Uql-NV-XYM" secondAttribute="bottom" id="iQI-Gp-iwg"/>
+                                    <constraint firstAttribute="trailing" secondItem="Uql-NV-XYM" secondAttribute="trailing" id="oTt-Oh-YZd"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="6dV-tF-oQV"/>
+                                        <exclude reference="BJA-29-1qf"/>
+                                        <exclude reference="GWe-lC-C5s"/>
+                                        <exclude reference="NoI-fv-bEo"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <outlet property="imageView" destination="Uql-NV-XYM" id="Jrq-t4-Rd9"/>
+                                </connections>
                             </collectionViewCell>
                         </cells>
                         <connections>

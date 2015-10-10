@@ -11,27 +11,24 @@ import Union
 import QuartzCore
 
 class CollectionViewCell: UICollectionViewCell {
-    let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFill
-        imageView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        imageView.clipsToBounds = true
-        return imageView
-    }()
+    @IBOutlet weak var imageView: UIImageView! {
+        didSet {
+            imageView.contentMode = .ScaleAspectFill
+            imageView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+            imageView.clipsToBounds = true
+            imageView.layer.mask = CAShapeLayer()
+        }
+    }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        imageView.frame = bounds
-
-        let mask = CAShapeLayer()
-        mask.path = circlePathWithRect(imageView.bounds).CGPath
-        imageView.layer.mask = mask
-        addSubview(imageView)
+        if let mask = imageView.layer.mask as? CAShapeLayer {
+            mask.path = circlePathWithRect(bounds).CGPath
+        }
     }
 
     func circlePathWithRect(frame: CGRect) -> UIBezierPath {
         let center = CGPoint(x: CGRectGetWidth(frame)/2, y: CGRectGetHeight(frame)/2)
-
         let path = UIBezierPath(arcCenter: center, radius: CGRectGetHeight(frame)/2, startAngle: 0, endAngle: 360, clockwise: true)
         return path
     }
@@ -48,7 +45,6 @@ class ViewController: UICollectionViewController {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: CGRectGetWidth(collectionView!.frame), height: 200)
         collectionView?.collectionViewLayout = layout
-        collectionView?.registerClass(CollectionViewCell.self, forCellWithReuseIdentifier: "cell")
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "overlay", style: .Plain, target: self, action: "showPresentation")
     }
@@ -85,7 +81,7 @@ class ViewController: UICollectionViewController {
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! CollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CollectionViewCell", forIndexPath: indexPath) as! CollectionViewCell
 
         cell.imageView.image = UIImage(named: "orange")
 
