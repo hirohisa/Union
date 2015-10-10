@@ -40,69 +40,72 @@ extension CAKeyframeAnimation {
 
 public class Animation {
 
-    var layer: CALayer?
-    var animation: CAPropertyAnimation?
-    public var dependencies = [Animation]()
+    let layer: CALayer?
+    let animation: CAPropertyAnimation?
 
-    // public property
-    public var delay: NSTimeInterval = 0 // animation start after delay time
-    public var completion: () -> () = {} // block called when animation is finished
+    typealias AnimationClosure = () -> Void
+    let animations: AnimationClosure?
 
-    weak var delegate: AnimationManager?
-    var finished = false
+    public var delay: NSTimeInterval = 0
+    public typealias CompletionHandler = (Bool) -> Void
+    public var completion: CompletionHandler?
+    public weak var previous: Animation?
 
     public var duration: NSTimeInterval {
-        var duration: NSTimeInterval = {
-            if let animation = self.animation {
-                return self.delay + animation.duration
-            }
-
-            return self.delay
-            }()
-
-        for animation in dependencies {
-            let _duration: NSTimeInterval = self.delay + animation.duration
-            if duration < _duration {
-                duration = _duration
-            }
-        }
-
+        var duration = delay + (animation != nil ? animation!.duration : _duration)
+        duration += previous?.duration ?? 0
         return duration
     }
+    var _duration: NSTimeInterval = 0
 
     public init(layer: CALayer, animation: CAPropertyAnimation) {
         self.layer = layer
         self.animation = animation
+        animations = nil
     }
 
-    public init (delay: NSTimeInterval, completion: () -> ()) {
-        self.delay = delay
-        self.completion = completion
+    public init(duration: NSTimeInterval, animations: () -> Void) {
+        layer = nil
+        animation = nil
+        self.animations = animations
+
+        _duration = duration
     }
+
+    weak var delegate: AnimationManager?
+    var finished = false
+}
+
+extension Animation {
 
     func start() {
-        animation?.delegate = self
-        if delay == 0 {
-            _start()
-            return
+        let block: () -> Void = {
+            if self.layer == nil && self.animations == nil {
+                self.finish()
+                return
+            }
+
+            if let layer = self.layer, let animation = self.animation {
+                self._startLayerAnimation(layer, animation)
+            }
+            if let animations = self.animations {
+                self._startAnimationClosure(animations)
+            }
         }
 
         let after = delay * Double(NSEC_PER_SEC)
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(after)), dispatch_get_main_queue()) {
-            self._start()
-        }
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(after)), dispatch_get_main_queue(), block)
     }
 
-    private func _start() {
-        if let layer = layer, let animation = animation {
-            layer.addAnimation(animation, forKey: animation.keyPath!.hash.description)
-            layer.setValue(animation.valueAfterAnimation, forKeyPath: animation.keyPath!)
-        } else {
-            finish()
-        }
+    private func _startLayerAnimation(layer: CALayer, _ animation: CAPropertyAnimation) {
+        animation.delegate = self
+        layer.addAnimation(animation, forKey: animation.keyPath!.hash.description)
+        layer.setValue(animation.valueAfterAnimation, forKeyPath: animation.keyPath!)
+    }
 
-        for animation in dependencies {
-            animation.start()
+    private func _startAnimationClosure(animations: AnimationClosure) {
+        UIView.animateWithDuration(_duration, animations: animations) { _ in
+            self.finish()
         }
     }
 
@@ -117,6 +120,6 @@ public class Animation {
     func finish() {
         finished = true
         delegate?.animationDidLoad(self)
-        completion()
+        completion?(true)
     }
 }

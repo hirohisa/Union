@@ -11,14 +11,10 @@ import Foundation
 class AnimationManager {
 
     var duration: NSTimeInterval {
-        var duration: NSTimeInterval = 0
-        for animation in animations {
-            if duration < animation.duration {
-                duration = animation.duration
-            }
+        if let animation = animations.sort({$0.duration < $1.duration}).last {
+            return animation.duration
         }
-
-        return duration
+        return 0
     }
 
     var animations = [Animation]()
