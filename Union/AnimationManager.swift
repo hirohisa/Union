@@ -1,5 +1,5 @@
 //
-//  Animator.swift
+//  AnimationManager.swift
 //  Union
 //
 //  Created by Hirohisa Kawasaki on 5/31/15.
@@ -8,24 +8,24 @@
 
 import Foundation
 
-class Animator {
+class AnimationManager {
 
     var duration: NSTimeInterval {
         var duration: NSTimeInterval = 0
-        for task in tasks {
-            if duration < task.duration {
-                duration = task.duration
+        for animation in animations {
+            if duration < animation.duration {
+                duration = animation.duration
             }
         }
 
         return duration
     }
 
-    var tasks = [Task]()
+    var animations = [Animation]()
     var completion: () -> () = {}
     var running: Bool {
-        for task in tasks {
-            if !task.finished {
+        for animation in animations {
+            if !animation.finished {
                 return true
             }
         }
@@ -38,13 +38,13 @@ class Animator {
             finish()
         }
 
-        for task in tasks {
-            task.delegate = self
-            task.start()
+        for animation in animations {
+            animation.delegate = self
+            animation.start()
         }
     }
 
-    func taskDidLoad(_: Task) {
+    func animationDidLoad(_: Animation) {
         if !running {
             finish()
         }

@@ -1,5 +1,5 @@
 //
-//  Task.swift
+//  Animation.swift
 //  Union
 //
 //  Created by Hirohisa Kawasaki on 5/31/15.
@@ -36,19 +36,19 @@ extension CAKeyframeAnimation {
     }
 }
 
-// Task
+// Animation
 
-public class Task {
+public class Animation {
 
     var layer: CALayer?
     var animation: CAPropertyAnimation?
-    public var dependencies = [Task]()
+    public var dependencies = [Animation]()
 
     // public property
     public var delay: NSTimeInterval = 0 // animation start after delay time
     public var completion: () -> () = {} // block called when animation is finished
 
-    weak var delegate: Animator?
+    weak var delegate: AnimationManager?
     var finished = false
 
     public var duration: NSTimeInterval {
@@ -60,8 +60,8 @@ public class Task {
             return self.delay
             }()
 
-        for task in dependencies {
-            let _duration: NSTimeInterval = self.delay + task.duration
+        for animation in dependencies {
+            let _duration: NSTimeInterval = self.delay + animation.duration
             if duration < _duration {
                 duration = _duration
             }
@@ -101,8 +101,8 @@ public class Task {
             finish()
         }
 
-        for task in dependencies {
-            task.start()
+        for animation in dependencies {
+            animation.start()
         }
     }
 
@@ -116,7 +116,7 @@ public class Task {
 
     func finish() {
         finished = true
-        delegate?.taskDidLoad(self)
+        delegate?.animationDidLoad(self)
         completion()
     }
 }

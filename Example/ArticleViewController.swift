@@ -114,22 +114,22 @@ class ArticleViewController: UIViewController {
 
 extension ArticleViewController: Union.Delegate {
 
-    func tasksBeforeTransitionTo(viewController: UIViewController) -> [Task] {
+    func animationsBeforeTransitionTo(viewController: UIViewController) -> [Animation] {
         return []
     }
 
-    func tasksDuringTransitionFrom(viewController: UIViewController) -> [Task] {
+    func animationsDuringTransitionFrom(viewController: UIViewController) -> [Animation] {
 
-        let task = switchLayerTask()
-        let slideImageTask = slideImageViewAnimationTask()
-        let slideTextTask = slideTextViewAnimationTask()
+        let animation = switchLayerAnimation()
+        let slideImageAnimation = slideImageViewAnimationAnimation()
+        let slideTextAnimation = slideTextViewAnimationAnimation()
 
-        task.dependencies = [slideImageTask, slideTextTask]
+        animation.dependencies = [slideImageAnimation, slideTextAnimation]
 
-        return [revealAnimationTask(), task, scaleIconVIewAnimationTask()]
+        return [revealAnimationAnimation(), animation, scaleIconVIewAnimationAnimation()]
     }
 
-    func revealAnimationTask() -> Task {
+    func revealAnimationAnimation() -> Animation {
 
         let mask = backgroundView.layer.mask as! CAShapeLayer
         let startPath = mask.path
@@ -141,19 +141,18 @@ extension ArticleViewController: Union.Delegate {
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
         animation.duration = 0.7
 
-        let task = Task(layer:mask, animation:animation)
-        return task
+        return Animation(layer:mask, animation:animation)
     }
 
-    func switchLayerTask() -> Task {
-        let task = Task(delay: 0.3) {
+    func switchLayerAnimation() -> Animation {
+        let animation = Animation(delay: 0.3) {
             self.view.insertSubview(self.imageView, aboveSubview: self.backgroundView)
         }
 
-        return task
+        return animation
     }
 
-    func slideImageViewAnimationTask() -> Task {
+    func slideImageViewAnimationAnimation() -> Animation {
         let point = CGPoint(x: imageView.layer.position.x, y: 100)
 
         let animation = CABasicAnimation(keyPath: "position")
@@ -161,13 +160,10 @@ extension ArticleViewController: Union.Delegate {
         animation.toValue = NSValue(CGPoint: point)
         animation.duration = 0.3
 
-        let task = Task(layer:imageView.layer, animation:animation)
-        //task.delay = 0.3
-
-        return task
+        return Animation(layer:imageView.layer, animation:animation)
     }
 
-    func slideTextViewAnimationTask() -> Task {
+    func slideTextViewAnimationAnimation() -> Animation {
         let position = CGPoint(x: textView.layer.position.x, y: CGRectGetHeight(imageView.frame) + CGRectGetHeight(textView.frame)/2)
 
         let animation = CABasicAnimation(keyPath: "position")
@@ -175,19 +171,17 @@ extension ArticleViewController: Union.Delegate {
         animation.toValue = NSValue(CGPoint: position)
         animation.duration = 0.3
 
-        let task = Task(layer:textView.layer, animation:animation)
-        //task.delay = 0.3
-        return task
+        return Animation(layer:textView.layer, animation:animation)
     }
 
-    func scaleIconVIewAnimationTask() -> Task {
+    func scaleIconVIewAnimationAnimation() -> Animation {
 
         let animation = CAKeyframeAnimation(keyPath: "transform.scale")
         animation.values = [0.0, 0.1, 0.2, 0.3, 0.5]
         animation.duration = 0.1
 
-        let task = Task(layer:iconView.layer, animation:animation)
-        task.delay = 0.6
-        return task
+        let a = Animation(layer:iconView.layer, animation:animation)
+        a.delay = 0.6
+        return a
     }
 }
