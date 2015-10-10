@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
 
   s.name         = "Union"
-  s.version      = "0.3.0"
+  s.version      = "0.4.0"
   s.summary      = "Context transitioning's animation manager for iOS written in Swift."
   s.description  = <<-DESC
   Context transitioning's animation manager for iOS written in Swift.
-  Call Union transition on UINavigationControllerDelegate and create animation tasks for each layer's animation and deliver tasks on Union.Delegate.
+Create animation tasks for each layer's animation and deliver tasks on Union.Delegate.
                    DESC
 
   s.homepage     = "https://github.com/TransitionKit/Union"
