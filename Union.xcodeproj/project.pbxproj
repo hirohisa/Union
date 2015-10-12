@@ -12,6 +12,7 @@
 		655E41FD1BC54B490036D6B0 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655E41FC1BC54B490036D6B0 /* Navigator.swift */; settings = {ASSET_TAGS = (); }; };
 		655E41FF1BC54C7F0036D6B0 /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655E41FE1BC54C7F0036D6B0 /* Presenter.swift */; settings = {ASSET_TAGS = (); }; };
 		65D3950D1A8DA8EE00DA346C /* Union.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D3950C1A8DA8EE00DA346C /* Union.swift */; };
+		65DA26471BCBA34F00A56E15 /* AnimationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DA26461BCBA34F00A56E15 /* AnimationManagerTests.swift */; settings = {ASSET_TAGS = (); }; };
 		A12FA8441B1A1543001DFB7E /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12FA8431B1A1543001DFB7E /* Animation.swift */; };
 		A12FA8461B1A1778001DFB7E /* AnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12FA8451B1A1778001DFB7E /* AnimationManager.swift */; };
 		A1F6700D1B1E1F6700461EF0 /* AnimationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F6700C1B1E1F6700461EF0 /* AnimationTests.swift */; };
@@ -36,6 +37,7 @@
 		655E41FC1BC54B490036D6B0 /* Navigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
 		655E41FE1BC54C7F0036D6B0 /* Presenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
 		65D3950C1A8DA8EE00DA346C /* Union.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Union.swift; sourceTree = "<group>"; };
+		65DA26461BCBA34F00A56E15 /* AnimationManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationManagerTests.swift; sourceTree = "<group>"; };
 		A12FA8431B1A1543001DFB7E /* Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
 		A12FA8451B1A1778001DFB7E /* AnimationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationManager.swift; sourceTree = "<group>"; };
 		A1F6700C1B1E1F6700461EF0 /* AnimationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationTests.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				A1F6700C1B1E1F6700461EF0 /* AnimationTests.swift */,
+				65DA26461BCBA34F00A56E15 /* AnimationManagerTests.swift */,
 				6557473E1A8C8AA100D3595C /* Supporting Files */,
 			);
 			path = UnionTests;
@@ -238,6 +241,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65DA26471BCBA34F00A56E15 /* AnimationManagerTests.swift in Sources */,
 				A1F6700D1B1E1F6700461EF0 /* AnimationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

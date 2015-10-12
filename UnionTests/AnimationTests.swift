@@ -6,10 +6,20 @@
 //  Copyright (c) 2015 Hirohisa Kawasaki. All rights reserved.
 //
 
-import UIKit
 import XCTest
-import Union
 
+@testable import Union
+
+extension Animation {
+
+    class func generate(duration: NSTimeInterval) -> Animation {
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.fromValue = NSValue(CGPoint: CGPointZero)
+        animation.toValue = NSValue(CGPoint: CGPointZero)
+        animation.duration = duration
+        return Animation(layer: CALayer(), animation: animation)
+    }
+}
 
 class AnimationTests: XCTestCase {
 
@@ -21,39 +31,46 @@ class AnimationTests: XCTestCase {
         super.tearDown()
     }
 
-    func testDuration() {
+    func testAnimationDuration() {
+        let animation = Animation.generate(1)
+        XCTAssertEqual(animation.duration, 1, "result of duration is failed")
+    }
 
-        let animation = CABasicAnimation(keyPath: "position")
-        animation.fromValue = NSValue(CGPoint: CGPointZero)
-        animation.toValue = NSValue(CGPoint: CGPointZero)
-        animation.duration = 1
+    func testAnimationDurationDelay() {
+        let animation = Animation.generate(1)
+        XCTAssertEqual(animation.duration, 1, "result of duration is failed")
 
-        let mainAnimation = Animation(layer: CALayer(), animation: animation)
-        XCTAssertEqual(mainAnimation.duration, 1, "result of duration is failed") // 1(animation.duration)
+        animation.delay = 2
+        XCTAssertEqual(animation.duration, 3, "result of duration is failed")
+    }
 
-        mainAnimation.delay = 2
-        XCTAssertEqual(mainAnimation.duration, 3, "result of duration is failed") // 2(animation.delay) + 1(animation.duration)
+    func testAnimationDurationDependency() {
+        let animation = Animation.generate(1)
+        XCTAssertEqual(animation.duration, 1, "result of duration is failed")
 
-        let animation2 = CABasicAnimation(keyPath: "position")
-        animation2.fromValue = NSValue(CGPoint: CGPointZero)
-        animation2.toValue = NSValue(CGPoint: CGPointZero)
-        animation2.duration = 3
-        let subAnimation1 = Animation(layer: CALayer(), animation: animation2)
-        mainAnimation.dependencies = [subAnimation1]
-        XCTAssertEqual(mainAnimation.duration, 5, "result of duration is failed") // 2(animation.delay) + 3(subAnimation1.duration)
+        animation.delay = 2
+        XCTAssertEqual(animation.duration, 3, "result of duration is failed")
 
-        subAnimation1.delay = 2
-        XCTAssertEqual(mainAnimation.duration, 7, "result of duration is failed") // 2(animation.delay) + 2(subAnimation1.delay) + 3(subAnimation1.duration)
+        let parentAnimation = Animation.generate(1)
+        animation.previous = parentAnimation
+        XCTAssertEqual(animation.duration, 4, "result of duration is failed")
 
-        let subAnimation2 = Animation(layer: CALayer(), animation: animation)
-        subAnimation2.delay = 5
-        mainAnimation.dependencies = [subAnimation1, subAnimation2]
-        XCTAssertEqual(mainAnimation.duration, 8, "result of duration is failed") // 2(animation.delay) + 5(subAnimation2.delay) + 1(subAnimation2.duration)
+        parentAnimation.delay = 1
+        XCTAssertEqual(animation.duration, 5, "result of duration is failed")
+    }
 
-        let subAnimation3 = Animation(layer: CALayer(), animation: animation2)
-        subAnimation3.delay = 5
-        subAnimation1.dependencies = [subAnimation3]
-        XCTAssertEqual(mainAnimation.duration, 12, "result of duration is failed") // 2(animation.delay) + 2(subAnimation1.delay) + 5(subAnimation3.delay) + 3(subAnimation3.duration)
+    func testAnimationFinishedAfterAnimating() {
+        let expectation = expectationWithDescription("testAnimationFinishedAfterAnimating")
+
+        let animation = Animation.generate(1)
+        animation.start()
+        animation.completion = { _ in
+            expectation.fulfill()
+        }
+
+        waitForExpectationsWithTimeout(1.1) { _ in
+            XCTAssertEqual(animation.state, State.Finished, "result of state is failed")
+        }
     }
 
 }
