@@ -120,16 +120,16 @@ extension ArticleViewController: Union.Delegate {
 
     func animationsDuringTransitionFrom(viewController: UIViewController) -> [Animation] {
 
-        let animation = switchLayerAnimation()
-        let slideImageAnimation = slideImageViewAnimationAnimation()
-        let slideTextAnimation = slideTextViewAnimationAnimation()
+        let switchAnimation = switchLayerAnimation()
+        let slideImgAnimation = slideImageViewAnimation()
+        slideImgAnimation.previous = switchAnimation
+        let slideTxtAnimation = slideTextViewAnimation()
+        slideTxtAnimation.previous = switchAnimation
 
-        animation.dependencies = [slideImageAnimation, slideTextAnimation]
-
-        return [revealAnimationAnimation(), animation, scaleIconVIewAnimationAnimation()]
+        return [revealAnimation(), switchAnimation, slideImgAnimation, slideTxtAnimation, scaleIconViewAnimation()]
     }
 
-    func revealAnimationAnimation() -> Animation {
+    func revealAnimation() -> Animation {
 
         let mask = backgroundView.layer.mask as! CAShapeLayer
         let startPath = mask.path
@@ -145,14 +145,15 @@ extension ArticleViewController: Union.Delegate {
     }
 
     func switchLayerAnimation() -> Animation {
-        let animation = Animation(delay: 0.3) {
+        let animation = Animation(duration: 0.3, animations: {})
+        animation.completion = { _ in
             self.view.insertSubview(self.imageView, aboveSubview: self.backgroundView)
         }
 
         return animation
     }
 
-    func slideImageViewAnimationAnimation() -> Animation {
+    func slideImageViewAnimation() -> Animation {
         let point = CGPoint(x: imageView.layer.position.x, y: 100)
 
         let animation = CABasicAnimation(keyPath: "position")
@@ -163,7 +164,7 @@ extension ArticleViewController: Union.Delegate {
         return Animation(layer:imageView.layer, animation:animation)
     }
 
-    func slideTextViewAnimationAnimation() -> Animation {
+    func slideTextViewAnimation() -> Animation {
         let position = CGPoint(x: textView.layer.position.x, y: CGRectGetHeight(imageView.frame) + CGRectGetHeight(textView.frame)/2)
 
         let animation = CABasicAnimation(keyPath: "position")
@@ -174,7 +175,7 @@ extension ArticleViewController: Union.Delegate {
         return Animation(layer:textView.layer, animation:animation)
     }
 
-    func scaleIconVIewAnimationAnimation() -> Animation {
+    func scaleIconViewAnimation() -> Animation {
 
         let animation = CAKeyframeAnimation(keyPath: "transform.scale")
         animation.values = [0.0, 0.1, 0.2, 0.3, 0.5]

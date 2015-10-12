@@ -11,46 +11,63 @@ import Foundation
 class AnimationManager {
 
     var duration: NSTimeInterval {
-        var duration: NSTimeInterval = 0
-        for animation in animations {
-            if duration < animation.duration {
-                duration = animation.duration
-            }
+        if let animation = animations.sort({$0.duration < $1.duration}).last {
+            return animation.duration
         }
-
-        return duration
+        return 0
     }
 
     var animations = [Animation]()
-    var completion: () -> () = {}
-    var running: Bool {
+    typealias CompletionHandler = () -> Void
+    var completion: CompletionHandler?
+
+    var state: State {
+
+        var hasFinishedAnimation = false
         for animation in animations {
-            if !animation.finished {
-                return true
+            switch animation.state {
+            case .Ready:
+                break
+            case .Waiting, .Animating:
+                return .Animating
+            case .Finished:
+                hasFinishedAnimation = true
+                break
             }
         }
 
-        return false
+        return hasFinishedAnimation ? .Finished: .Ready
     }
 
     func start() {
-        if !running {
-            finish()
-        }
+        try! validate()
+        startAnimations(animations.filter({ $0.previous == nil }))
+    }
 
+    func validate() throws {
+        let result = animations.flatMap({ $0.previous }).filter({ !animations.contains($0) })
+        if  !result.isEmpty {
+            throw Error.AnimationPreviousNotIncludedInAnimations
+        }
+    }
+
+    func startAnimations(animations: [Animation]) {
         for animation in animations {
             animation.delegate = self
             animation.start()
         }
     }
 
-    func animationDidLoad(_: Animation) {
-        if !running {
+    func animationDidLoad(animation: Animation) {
+        let result = animations.filter { $0.previous == animation }
+        startAnimations(result)
+
+        if state == .Finished {
             finish()
         }
     }
 
     func finish() {
-        completion()
+        completion?()
     }
 }
