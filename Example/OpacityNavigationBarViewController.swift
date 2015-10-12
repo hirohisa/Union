@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Union
 
 class OpacityNavigationBarViewController: UIViewController {
 
@@ -14,6 +15,30 @@ class OpacityNavigationBarViewController: UIViewController {
         super.viewDidLoad()
 
         title = "Opacity"
-        view.backgroundColor = UIColor.grayColor()
+        navigationController?.delegate = self
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "overlay", style: .Plain, target: self, action: "next")
     }
+
+    func next() {
+
+        let viewController = UIViewController()
+        viewController.view.backgroundColor = UIColor.blueColor()
+
+        navigationController?.pushViewController(viewController, animated: true)
+        navigationController?.delegate = self
+    }
+}
+
+extension OpacityNavigationBarViewController: UINavigationControllerDelegate {
+
+    func navigationController(navigationController: UINavigationController, interactionControllerForAnimationController animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        print(__FUNCTION__)
+        return Union.Navigator.interact()
+    }
+
+    func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        print(__FUNCTION__)
+        return Union.Navigator.animate()
+    }
+
 }

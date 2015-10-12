@@ -25,6 +25,10 @@ public class Navigator: NSObject {
     public class func animate() -> UIViewControllerAnimatedTransitioning {
         return Navigator()
     }
+
+    public class func interact() -> UIViewControllerInteractiveTransitioning {
+        return Navigator()
+    }
 }
 
 extension Navigator: UIViewControllerAnimatedTransitioning {
@@ -35,6 +39,12 @@ extension Navigator: UIViewControllerAnimatedTransitioning {
 
     public func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         return duration
+    }
+}
+
+extension Navigator: UIViewControllerInteractiveTransitioning {
+
+    public func startInteractiveTransition(transitionContext: UIViewControllerContextTransitioning) {
     }
 }
 
