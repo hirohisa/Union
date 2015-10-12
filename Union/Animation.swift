@@ -8,6 +8,13 @@
 
 import Foundation
 
+public enum State {
+    case Ready
+    case Waiting
+    case Animating
+    case Finished
+}
+
 // Protocol Animation
 
 protocol CAPropertyAnimationPotocol {
@@ -73,7 +80,7 @@ public class Animation {
     }
 
     weak var delegate: AnimationManager?
-    var finished = false
+    public var state: State = .Ready
 }
 
 extension Animation {
@@ -85,6 +92,8 @@ extension Animation {
                 return
             }
 
+
+            self.state = .Animating
             if let layer = self.layer, let animation = self.animation {
                 self._startLayerAnimation(layer, animation)
             }
@@ -93,6 +102,11 @@ extension Animation {
             }
         }
 
+        state = .Waiting
+        if delay == 0 {
+            block()
+            return
+        }
         let after = delay * Double(NSEC_PER_SEC)
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(after)), dispatch_get_main_queue(), block)
     }
@@ -110,15 +124,11 @@ extension Animation {
     }
 
     dynamic func animationDidStop(_: CAAnimation, finished: Bool) {
-        if !finished {
-            return
-        }
-
         finish()
     }
 
     func finish() {
-        finished = true
+        state = .Finished
         delegate?.animationDidLoad(self)
         completion?(true)
     }

@@ -8,6 +8,10 @@
 
 import UIKit
 
+public enum Error: ErrorType {
+    case AnimationPreviousNotIncludedInAnimations
+}
+
 public protocol Delegate {
     func animationsBeforeTransitionTo(viewController: UIViewController) -> [Animation]
     func animationsDuringTransitionFrom(viewController: UIViewController) -> [Animation]

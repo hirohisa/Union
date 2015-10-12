@@ -20,17 +20,35 @@ class AnimationManager {
     var animations = [Animation]()
     typealias CompletionHandler = () -> Void
     var completion: CompletionHandler?
-    var running: Bool {
-        let result = animations.filter({ !$0.finished })
-        return !result.isEmpty
+
+    var state: State {
+
+        var hasFinishedAnimation = false
+        for animation in animations {
+            switch animation.state {
+            case .Ready:
+                break
+            case .Waiting, .Animating:
+                return .Animating
+            case .Finished:
+                hasFinishedAnimation = true
+                break
+            }
+        }
+
+        return hasFinishedAnimation ? .Finished: .Ready
     }
 
     func start() {
-        if !running {
-            finish()
-        }
-
+        try! validate()
         startAnimations(animations.filter({ $0.previous == nil }))
+    }
+
+    func validate() throws {
+        let result = animations.flatMap({ $0.previous }).filter({ !animations.contains($0) })
+        if  !result.isEmpty {
+            throw Error.AnimationPreviousNotIncludedInAnimations
+        }
     }
 
     func startAnimations(animations: [Animation]) {
@@ -44,7 +62,7 @@ class AnimationManager {
         let result = animations.filter { $0.previous == animation }
         startAnimations(result)
 
-        if !running {
+        if state == .Finished {
             finish()
         }
     }
