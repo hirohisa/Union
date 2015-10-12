@@ -18,15 +18,11 @@ class AnimationManager {
     }
 
     var animations = [Animation]()
-    var completion: () -> () = {}
+    typealias CompletionHandler = () -> Void
+    var completion: CompletionHandler?
     var running: Bool {
-        for animation in animations {
-            if !animation.finished {
-                return true
-            }
-        }
-
-        return false
+        let result = animations.filter({ !$0.finished })
+        return !result.isEmpty
     }
 
     func start() {
@@ -34,19 +30,26 @@ class AnimationManager {
             finish()
         }
 
+        startAnimations(animations.filter({ $0.previous == nil }))
+    }
+
+    func startAnimations(animations: [Animation]) {
         for animation in animations {
             animation.delegate = self
             animation.start()
         }
     }
 
-    func animationDidLoad(_: Animation) {
+    func animationDidLoad(animation: Animation) {
+        let result = animations.filter { $0.previous == animation }
+        startAnimations(result)
+
         if !running {
             finish()
         }
     }
 
     func finish() {
-        completion()
+        completion?()
     }
 }

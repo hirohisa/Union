@@ -123,3 +123,15 @@ extension Animation {
         completion?(true)
     }
 }
+
+extension Animation: Hashable {
+
+    public var hashValue: Int {
+        let pointer = unsafeAddressOf(self)
+        return pointer.hashValue
+    }
+}
+
+public func ==(lhs: Animation, rhs: Animation) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}
