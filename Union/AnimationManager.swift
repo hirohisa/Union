@@ -41,6 +41,12 @@ class AnimationManager {
 
     func start() {
         try! validate()
+
+        if animations.isEmpty {
+            finish()
+            return
+        }
+
         startAnimations(animations.filter({ $0.previous == nil }))
     }
 
