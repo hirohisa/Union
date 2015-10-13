@@ -12,6 +12,11 @@ public class Navigator: NSObject {
 
     let before = AnimationManager()
     let present = AnimationManager()
+    public let operation: UINavigationControllerOperation
+
+    init(operation: UINavigationControllerOperation) {
+        self.operation = operation
+    }
 
     var duration: NSTimeInterval {
         return before.duration + present.duration
@@ -22,12 +27,8 @@ public class Navigator: NSObject {
         start(transitionContext)
     }
 
-    public class func animate() -> UIViewControllerAnimatedTransitioning {
-        return Navigator()
-    }
-
-    public class func interact() -> UIViewControllerInteractiveTransitioning {
-        return Navigator()
+    public class func animate(operation: UINavigationControllerOperation) -> UIViewControllerAnimatedTransitioning {
+        return Navigator(operation: operation)
     }
 }
 
