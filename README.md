@@ -4,12 +4,13 @@ Union
 Context transitioning's animation manager for iOS written in Swift.
 Create animation tasks for each layer's animation and deliver tasks on Union.Delegate.
 
+
 Features
 ----------
 
 - [x] Support CABasicAnimation.
 - [x] Support CAKeyframeAnimation.
-- [ ] Support UIView.animateWithDuration Block.
+- [x] Support UIView.animateWithDuration Block.
 - [x] Link to other tasks, use property `dependencies`.
 - [x] Support UIViewControllerTransitioningDelegate.
 - [ ] Support UITabBarControllerDelegate.
