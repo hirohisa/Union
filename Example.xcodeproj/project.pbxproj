@@ -76,12 +76,8 @@
 			children = (
 				A1E9892F1BCC3A7900948F82 /* NavigationBar.swift */,
 				655747581A8CA14C00D3595C /* AppDelegate.swift */,
-				6557475A1A8CA14C00D3595C /* ViewController.swift */,
-				A1E9892D1BCC3A3E00948F82 /* OpacityNavigationBarViewController.swift */,
-				A1E9892B1BCC32CB00948F82 /* PresentingViewController.swift */,
-				6511893D1B14937100804FC7 /* ProfileViewController.swift */,
-				651189391B144A6700804FC7 /* PresentationController.swift */,
-				65D3950E1A8DB23900DA346C /* ArticleViewController.swift */,
+				A1FC21181BDFE670003FD093 /* NavigatorExample */,
+				A1FC21191BDFE68A003FD093 /* PresenterExample */,
 				6557475C1A8CA14C00D3595C /* Main.storyboard */,
 				6557475F1A8CA14C00D3595C /* Images.xcassets */,
 				655747611A8CA14C00D3595C /* LaunchScreen.xib */,
@@ -98,6 +94,26 @@
 				655747571A8CA14C00D3595C /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A1FC21181BDFE670003FD093 /* NavigatorExample */ = {
+			isa = PBXGroup;
+			children = (
+				6557475A1A8CA14C00D3595C /* ViewController.swift */,
+				65D3950E1A8DB23900DA346C /* ArticleViewController.swift */,
+				A1E9892D1BCC3A3E00948F82 /* OpacityNavigationBarViewController.swift */,
+			);
+			name = NavigatorExample;
+			sourceTree = "<group>";
+		};
+		A1FC21191BDFE68A003FD093 /* PresenterExample */ = {
+			isa = PBXGroup;
+			children = (
+				A1E9892B1BCC32CB00948F82 /* PresentingViewController.swift */,
+				651189391B144A6700804FC7 /* PresentationController.swift */,
+				6511893D1B14937100804FC7 /* ProfileViewController.swift */,
+			);
+			name = PresenterExample;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
