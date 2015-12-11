@@ -81,7 +81,7 @@ extension Navigator {
         // present
         var fromAnimations: [Animation] = []
         if let delegate = fromViewController as? Delegate {
-            fromAnimations = delegate.animationsBeforeTransitionTo(toViewController)
+            fromAnimations = delegate.animationsDuringTransitionFrom(toViewController)
         }
         var toAnimation: [Animation] = []
         if let delegate = toViewController as? Delegate {
