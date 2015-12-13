@@ -75,12 +75,12 @@ extension Navigator {
     private func _setup(fromViewController fromViewController: UIViewController, toViewController: UIViewController) {
 
         if let delegate = fromViewController as? Delegate {
-            before.animations = delegate.animationsBeforeTransitionTo(toViewController)
+            before.animations = delegate.animationsBeforeTransition(from: fromViewController, to: toViewController)
         }
 
         // present
-        let fromAnimations: [Animation] = (fromViewController as? Delegate)?.animationsDuringTransitionFrom(fromViewController) ?? []
-        let toAnimations: [Animation] = (toViewController as? Delegate)?.animationsDuringTransitionFrom(fromViewController) ?? []
+        let fromAnimations: [Animation] = (fromViewController as? Delegate)?.animationsDuringTransition(from: fromViewController, to: toViewController) ?? []
+        let toAnimations: [Animation] = (toViewController as? Delegate)?.animationsDuringTransition(from: fromViewController, to: toViewController) ?? []
 
         present.animations = fromAnimations + toAnimations
     }
