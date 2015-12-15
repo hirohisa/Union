@@ -13,16 +13,16 @@ public enum Error: ErrorType {
 }
 
 public protocol Delegate {
-    func animationsBeforeTransitionTo(viewController: UIViewController) -> [Animation]
-    func animationsDuringTransitionFrom(viewController: UIViewController) -> [Animation]
+    func animationsBeforeTransition(from fromViewController: UIViewController, to toViewController: UIViewController) -> [Animation]
+    func animationsDuringTransition(from fromViewController: UIViewController, to toViewController: UIViewController) -> [Animation]
 }
 
 extension Delegate {
 
-    func animationsBeforeTransitionTo(viewController: UIViewController) -> [Animation] {
+    func animationsBeforeTransition(from fromViewController: UIViewController, to toViewController: UIViewController) -> [Animation] {
         return []
     }
-    func animationsDuringTransitionFrom(viewController: UIViewController) -> [Animation] {
+    func animationsDuringTransition(from fromViewController: UIViewController, to toViewController: UIViewController) -> [Animation] {
         return []
     }
 }

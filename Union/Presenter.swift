@@ -93,19 +93,13 @@ extension Presenter {
     private func _setup(fromViewController fromViewController: UIViewController, toViewController: UIViewController) {
 
         if let delegate = fromViewController as? Delegate {
-            before.animations = delegate.animationsBeforeTransitionTo(toViewController)
+            before.animations = delegate.animationsBeforeTransition(from: fromViewController, to: toViewController)
         }
 
         // present
-        var fromAnimations: [Animation] = []
-        if let delegate = fromViewController as? Delegate {
-            fromAnimations = delegate.animationsBeforeTransitionTo(toViewController)
-        }
-        var toAnimation: [Animation] = []
-        if let delegate = toViewController as? Delegate {
-            toAnimation = delegate.animationsDuringTransitionFrom(fromViewController)
-        }
+        let fromAnimations: [Animation] = (fromViewController as? Delegate)?.animationsDuringTransition(from: fromViewController, to: toViewController) ?? []
+        let toAnimations: [Animation] = (toViewController as? Delegate)?.animationsDuringTransition(from: fromViewController, to: toViewController) ?? []
 
-        present.animations = fromAnimations + toAnimation
+        present.animations = fromAnimations + toAnimations
     }
 }

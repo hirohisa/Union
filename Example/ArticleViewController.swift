@@ -114,11 +114,10 @@ class ArticleViewController: UIViewController {
 
 extension ArticleViewController: Union.Delegate {
 
-    func animationsBeforeTransitionTo(viewController: UIViewController) -> [Animation] {
+    func animationsBeforeTransition(from fromViewController: UIViewController, to toViewController: UIViewController) -> [Animation] {
         return []
     }
-
-    func animationsDuringTransitionFrom(viewController: UIViewController) -> [Animation] {
+    func animationsDuringTransition(from fromViewController: UIViewController, to toViewController: UIViewController) -> [Animation] {
 
         let switchAnimation = switchLayerAnimation()
         let slideImgAnimation = slideImageViewAnimation()
